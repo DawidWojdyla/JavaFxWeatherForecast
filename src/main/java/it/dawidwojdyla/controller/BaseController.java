@@ -1,4 +1,4 @@
-package it.dawidwojdyla.control;
+package it.dawidwojdyla.controller;
 
 import it.dawidwojdyla.WeatherForecastManager;
 import it.dawidwojdyla.view.ViewFactory;

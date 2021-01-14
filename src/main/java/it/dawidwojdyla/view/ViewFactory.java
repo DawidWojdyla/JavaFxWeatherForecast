@@ -2,8 +2,8 @@ package it.dawidwojdyla.view;
 
 import it.dawidwojdyla.Launcher;
 import it.dawidwojdyla.WeatherForecastManager;
-import it.dawidwojdyla.control.BaseController;
-import it.dawidwojdyla.control.MainWindowController;
+import it.dawidwojdyla.controller.BaseController;
+import it.dawidwojdyla.controller.MainWindowController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
