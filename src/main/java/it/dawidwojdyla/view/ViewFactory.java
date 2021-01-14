@@ -2,7 +2,6 @@ package it.dawidwojdyla.view;
 
 import it.dawidwojdyla.Launcher;
 import it.dawidwojdyla.WeatherForecastManager;
-import it.dawidwojdyla.controller.BaseController;
 import it.dawidwojdyla.controller.MainWindowController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,13 +22,14 @@ public class ViewFactory {
     }
 
     public void showMainWindow() {
-        BaseController mainWindowController = new MainWindowController(weatherForecastManager, this, "MainWindow");
+        MainWindowController mainWindowController = new MainWindowController(weatherForecastManager,"MainWindow.fxml");
         initializeStage(mainWindowController);
+        weatherForecastManager.setMainWindowController(mainWindowController);
     }
 
-    public void initializeStage(BaseController controller) {
+    public void initializeStage(MainWindowController controller) {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("fxml/" + controller.getFxmlName() + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("fxml/" + controller.getFxmlName()));
         fxmlLoader.setController(controller);
         Parent parent;
         try {

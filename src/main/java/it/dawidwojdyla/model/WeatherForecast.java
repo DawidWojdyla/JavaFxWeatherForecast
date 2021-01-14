@@ -1,105 +1,117 @@
 package it.dawidwojdyla.model;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by Dawid on 2021-01-13.
  */
 public class WeatherForecast {
 
-    float minTemp;
-    float maxTemp;
-    float probabilityOfPrecipation;
-    float rain;
-    float snow;
-    int pressure;
-    int humidity;
-    int clouds;
-    long sunset;
-    long surise;
+    String minTemp;
+    String maxTemp;
+    String probabilityOfPrecipitation;
+    String rain;
+    String snow;
+    String pressure;
+    String humidity;
+    String clouds;
+    String windSpeed;
+    String sunset;
+    String sunrise;
     String description;
     String iconName;
 
     public WeatherForecast() {
-
+        snow = "no snow";
+        rain = "no rain";
     }
 
-    public float getMinTemp() {
+    public String getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(String windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    public String getMinTemp() {
         return minTemp;
     }
 
-    public void setMinTemp(float minTemp) {
+    public void setMinTemp(String minTemp) {
         this.minTemp = minTemp;
     }
 
-    public float getMaxTemp() {
+    public String getMaxTemp() {
         return maxTemp;
     }
 
-    public void setMaxTemp(float maxTemp) {
+    public void setMaxTemp(String maxTemp) {
         this.maxTemp = maxTemp;
     }
 
-    public float getProbabilityOfPrecipation() {
-        return probabilityOfPrecipation;
+    public String getProbabilityOfPrecipitation() {
+        return probabilityOfPrecipitation;
     }
 
-    public void setProbabilityOfPrecipation(float probabilityOfPrecipation) {
-        this.probabilityOfPrecipation = probabilityOfPrecipation;
+    public void setProbabilityOfPrecipitation(String probabilityOfPrecipitation) {
+        this.probabilityOfPrecipitation = probabilityOfPrecipitation;
     }
 
-    public float getRain() {
+    public String getRain() {
         return rain;
     }
 
-    public void setRain(float rain) {
+    public void setRain(String rain) {
         this.rain = rain;
     }
 
-    public float getSnow() {
+    public String getSnow() {
         return snow;
     }
 
-    public void setSnow(float snow) {
+    public void setSnow(String snow) {
         this.snow = snow;
     }
 
-    public int getPressure() {
+    public String getPressure() {
         return pressure;
     }
 
-    public void setPressure(int pressure) {
+    public void setPressure(String pressure) {
         this.pressure = pressure;
     }
 
-    public int getHumidity() {
+    public String getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(int humidity) {
+    public void setHumidity(String humidity) {
         this.humidity = humidity;
     }
 
-    public int getClouds() {
+    public String getClouds() {
         return clouds;
     }
 
-    public void setClouds(int clouds) {
+    public void setClouds(String clouds) {
         this.clouds = clouds;
     }
 
-    public long getSunset() {
+    public String getSunset() {
         return sunset;
     }
 
-    public void setSunset(long sunset) {
+    public void setSunset(String sunset) {
         this.sunset = sunset;
     }
 
-    public long getSurise() {
-        return surise;
+    public String getSunrise() {
+        return sunrise;
     }
 
-    public void setSurise(long surise) {
-        this.surise = surise;
+    public void setSunrise(String sunrise) {
+        this.sunrise = sunrise;
     }
 
     public String getDescription() {

@@ -1,6 +1,5 @@
 package it.dawidwojdyla.controller.owm;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,18 +11,16 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by Dawid on 2021-01-13.
  */
-public class WeatherService {
+public class OpenWeatherMap {
 
     String host = "https://api.openweathermap.org/data/2.5/onecall";
     String apiKey = "39af7a169432c32cc8f937e351c91f46";
     String lat;
     String lon;
-    String id;
 
-    public WeatherService(String lat, String lon) {
-        this.lat = "50.177791";
-        this.lon = "22.609539";
-        this.id = "759301";
+    public OpenWeatherMap(String lat, String lon) {
+        this.lat = lat;
+        this.lon = lon;
     }
 
     private String buildRequest() {
@@ -31,7 +28,7 @@ public class WeatherService {
     }
 
     public JSONObject getWeatherForecast() {
-
+        System.out.println("getWeatherForecast()");
         try {
             String request = buildRequest();
             HttpURLConnection connection = (HttpURLConnection) new URL(request).openConnection();
@@ -48,6 +45,7 @@ public class WeatherService {
                 response.append(responseLine);
             }
             System.out.println(response);
+
             return new JSONObject(response.toString());
 
         } catch (IOException e) {
@@ -55,8 +53,4 @@ public class WeatherService {
             return null;
         }
     }
-
-   public JSONArray getDailyArray() {
-        return getWeatherForecast().getJSONArray("daily");
-   }
 }
