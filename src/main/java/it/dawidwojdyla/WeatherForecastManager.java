@@ -11,10 +11,12 @@ import javafx.concurrent.Service;
  */
 public class WeatherForecastManager {
 
-    private static final String CURRENT_LOCATION_LATITUDE_DEFAULT = "50.177791";
-    private static final String CURRENT_LOCATION_LONGITUDE_DEFAULT = "22.609539";
-    private static final String DESTINATION_LATITUDE_DEFAULT = "50.3185408";
-    private static final String DESTINATION_LONGITUDE_DEFAULT = "18.788618";
+    private static final String CURRENT_LOCATION_LATITUDE_DEFAULT = "50.0412";
+    private static final String CURRENT_LOCATION_LONGITUDE_DEFAULT = "21.9991";
+    private static final String CURRENT_LOCATION_NAME = "Rzeszów, Poland";
+    private static final String DESTINATION_LATITUDE_DEFAULT = "45.4420043";
+    private static final String DESTINATION_LONGITUDE_DEFAULT = "12.3378095";
+    private static final String DESTINATION_NAME = "Venice, Italy";
 
     private WeatherConditionsOfTheLocation currentLocationForecast;
     private WeatherConditionsOfTheLocation destinationForecast;
@@ -30,6 +32,7 @@ public class WeatherForecastManager {
 
         currentLocationForecastFetcher.setOnSucceeded(e -> {
             currentLocationForecast = currentLocationForecastFetcher.getValue();
+            currentLocationForecast.setPlaceName(CURRENT_LOCATION_NAME);
             mainWindowController.setCurrentLocationForecast();
         });
 
@@ -39,6 +42,7 @@ public class WeatherForecastManager {
                 DESTINATION_LATITUDE_DEFAULT, DESTINATION_LONGITUDE_DEFAULT);
         destinationForecastFetcher.setOnSucceeded(e -> {
             destinationForecast = destinationForecastFetcher.getValue();
+            destinationForecast.setPlaceName(DESTINATION_NAME);
             mainWindowController.setDestinationForecast();
         });
 

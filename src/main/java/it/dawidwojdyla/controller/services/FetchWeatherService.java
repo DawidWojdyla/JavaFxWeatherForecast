@@ -23,7 +23,7 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
     private final String longitude;
     private String timeZone;
     private WeatherForecastManager weatherForecastManager;
-    private List<WeatherForecast> forecasts = new ArrayList<>();
+    private final List<WeatherForecast> forecasts = new ArrayList<>();
     WeatherConditionsOfTheLocation weatherConditionsOfTheLocation;
 
 
@@ -64,18 +64,19 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
         WeatherForecast weatherForecast = new WeatherForecast();
 
         JSONObject temperatures = (JSONObject) jsonWeatherDay.get("temp");
-        weatherForecast.setMinTemp(temperatures.optString("min"));
-        weatherForecast.setMaxTemp(temperatures.optString("max"));
 
+        weatherForecast.setMinTemp(String.format("%.1f", temperatures.optFloat("min")));
+        weatherForecast.setMaxTemp(String.format("%.1f", temperatures.optFloat("max")));
         weatherForecast.setPressure(jsonWeatherDay.optString("pressure"));
         weatherForecast.setHumidity(jsonWeatherDay.optString("humidity"));
         weatherForecast.setProbabilityOfPrecipitation(jsonWeatherDay.optString("pop"));
         weatherForecast.setWindSpeed(jsonWeatherDay.optString("wind_speed"));
-        weatherForecast.setSunrise(prepareDate(jsonWeatherDay.getLong("sunrise")));
-        weatherForecast.setSunset(prepareDate(jsonWeatherDay.getLong("sunset")));
-        JSONObject weather = (JSONObject) jsonWeatherDay.opt("weather");
-        weatherForecast.setIconName(weather.optString("icon"));
-        weatherForecast.setDescription(weather.optString("description"));
+        weatherForecast.setClouds(jsonWeatherDay.optString("clouds"));
+        weatherForecast.setSunrise(prepareDate(jsonWeatherDay.optLong("sunrise")));
+        weatherForecast.setSunset(prepareDate(jsonWeatherDay.optLong("sunset")));
+        JSONArray weather = (JSONArray) jsonWeatherDay.opt("weather");
+        weatherForecast.setIconName(weather.getJSONObject(0).optString("icon"));
+        weatherForecast.setDescription(weather.getJSONObject(0).optString("description"));
 
         if(jsonWeatherDay.has("rain")) {
             weatherForecast.setRain(jsonWeatherDay.optString("rain"));
@@ -83,12 +84,13 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
         if (jsonWeatherDay.has("snow")) {
             weatherForecast.setSnow(jsonWeatherDay.optString("snow"));
         }
+
         forecasts.add(weatherForecast);
     }
 
     private String prepareDate(long unixValue) {
         Date date = new Date(unixValue * 1000);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM HH:mm");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
         return simpleDateFormat.format(date);
     }

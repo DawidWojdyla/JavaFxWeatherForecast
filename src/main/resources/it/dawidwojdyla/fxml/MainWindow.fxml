@@ -5,21 +5,42 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="704.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="746.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="210.0">
          <children>
-            <Button layoutX="90.0" layoutY="71.0" mnemonicParsing="false" onAction="#leftButtonAction" text="Show Weather" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="70.0" />
-            <Label fx:id="leftLabel" layoutX="71.0" layoutY="136.0" prefHeight="77.0" prefWidth="207.0" />
-            <TextField fx:id="leftTextField" layoutX="75.0" layoutY="33.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="30.0" />
+            <Button layoutX="128.0" layoutY="71.0" mnemonicParsing="false" onAction="#currentLocationButtonAction" prefHeight="25.0" prefWidth="114.0" text="Show Weather" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="60.0" />
+            <TextField fx:id="currentLocationTextField" layoutX="75.0" layoutY="33.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="20.0" />
+            <VBox fx:id="currentLocationWeatherVBox" layoutY="137.0" prefHeight="484.0" prefWidth="369.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="140.0" />
+            <StackPane layoutX="1.0" layoutY="98.0" prefHeight="40.0" prefWidth="369.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="100.0">
+               <children>
+                  <Label fx:id="currentLocalizationName" prefHeight="25.0" prefWidth="333.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
          </children>
       </AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="161.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="524.0" prefWidth="348.0">
          <children>
-            <Button layoutX="90.0" layoutY="73.0" mnemonicParsing="false" onAction="#rightButtonAction" text="Show Weather" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="70.0" />
-            <Label fx:id="rightLabel" layoutX="71.0" layoutY="140.0" prefHeight="77.0" prefWidth="207.0" />
-            <TextField fx:id="rightTextField" layoutX="75.0" layoutY="35.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="30.0" />
+            <Button layoutX="128.0" layoutY="72.0" mnemonicParsing="false" onAction="#destinationButtonAction" prefHeight="25.0" prefWidth="114.0" text="Show Weather" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="60.0" />
+            <TextField fx:id="destinationTextField" layoutX="75.0" layoutY="35.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="20.0" />
+            <VBox fx:id="destinationWeatherVBox" layoutY="137.0" prefHeight="484.0" prefWidth="369.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="140.0" />
+            <StackPane layoutY="100.0" prefHeight="40.0" prefWidth="369.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="100.0">
+               <children>
+                  <Label fx:id="destinationName" prefHeight="25.0" prefWidth="333.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
          </children>
       </AnchorPane>
   </items>

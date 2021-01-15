@@ -13,8 +13,8 @@ import java.nio.charset.StandardCharsets;
  */
 public class OpenWeatherMap {
 
-    String host = "https://api.openweathermap.org/data/2.5/onecall";
-    String apiKey = "39af7a169432c32cc8f937e351c91f46";
+    private final String OPEN_WEATHER_MAP_ONE_CALL_API_HOST = "https://api.openweathermap.org/data/2.5/onecall";
+    private final String API_KEY = "39af7a169432c32cc8f937e351c91f46";
     String lat;
     String lon;
 
@@ -24,7 +24,8 @@ public class OpenWeatherMap {
     }
 
     private String buildRequest() {
-        return host + "?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly,alerts&units=metric&appid=" + apiKey;
+        return OPEN_WEATHER_MAP_ONE_CALL_API_HOST + "?lat=" + lat + "&lon=" + lon +
+                "&exclude=current,minutely,hourly,alerts&units=metric&appid=" + API_KEY;
     }
 
     public JSONObject getWeatherForecast() {
@@ -44,7 +45,6 @@ public class OpenWeatherMap {
             while ((responseLine = bufferedReader.readLine()) != null) {
                 response.append(responseLine);
             }
-            System.out.println(response);
 
             return new JSONObject(response.toString());
 
