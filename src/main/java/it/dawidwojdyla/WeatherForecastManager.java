@@ -27,7 +27,7 @@ public class WeatherForecastManager {
 
     public WeatherForecastManager() {
 
-        currentLocationForecastFetcher = new FetchWeatherService(this,
+        currentLocationForecastFetcher = new FetchWeatherService(
                 CURRENT_LOCATION_LATITUDE_DEFAULT, CURRENT_LOCATION_LONGITUDE_DEFAULT);
 
         currentLocationForecastFetcher.setOnSucceeded(e -> {
@@ -38,7 +38,7 @@ public class WeatherForecastManager {
 
         currentLocationForecastFetcher.start();
 
-        destinationForecastFetcher = new FetchWeatherService(this,
+        destinationForecastFetcher = new FetchWeatherService(
                 DESTINATION_LATITUDE_DEFAULT, DESTINATION_LONGITUDE_DEFAULT);
         destinationForecastFetcher.setOnSucceeded(e -> {
             destinationForecast = destinationForecastFetcher.getValue();

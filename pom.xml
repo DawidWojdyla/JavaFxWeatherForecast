@@ -6,10 +6,10 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>11.0.9</maven.compiler.source>
         <maven.compiler.target>11.0.9</maven.compiler.target>
     </properties>
-
 
     <dependencies>
 
@@ -41,6 +41,7 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>11</release>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>

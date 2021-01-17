@@ -1,6 +1,7 @@
-package it.dawidwojdyla.controller.owm;
+package it.dawidwojdyla.controller.services;
 
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,33 +10,23 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Created by Dawid on 2021-01-13.
+ * Created by Dawid on 2021-01-16.
  */
-public class OpenWeatherMap {
+public class JSONResponseFetcherOnHttpRequest {
 
-    private final String OPEN_WEATHER_MAP_ONE_CALL_API_HOST = "https://api.openweathermap.org/data/2.5/onecall";
-    private final String API_KEY = "39af7a169432c32cc8f937e351c91f46";
-    String lat;
-    String lon;
+    private String request;
 
-    public OpenWeatherMap(String lat, String lon) {
-        this.lat = lat;
-        this.lon = lon;
+    public JSONResponseFetcherOnHttpRequest(String request) {
+        this.request = request;
     }
 
-    private String buildRequest() {
-        return OPEN_WEATHER_MAP_ONE_CALL_API_HOST + "?lat=" + lat + "&lon=" + lon +
-                "&exclude=current,minutely,hourly,alerts&units=metric&appid=" + API_KEY;
-    }
-
-    public JSONObject getWeatherForecast() {
-        System.out.println("getWeatherForecast()");
+    public JSONObject getJSONResponse() {
         try {
-            String request = buildRequest();
             HttpURLConnection connection = (HttpURLConnection) new URL(request).openConnection();
             connection.setRequestMethod("GET");
             connection.setDoOutput(true);
             connection.connect();
+
 
             InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);

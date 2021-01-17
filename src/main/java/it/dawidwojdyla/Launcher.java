@@ -1,0 +1,25 @@
+package it.dawidwojdyla;
+
+import it.dawidwojdyla.view.ViewFactory;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+
+/**
+ * JavaFX App
+ */
+public class Launcher extends Application {
+
+    @Override
+    public void start(Stage stage) {
+
+      WeatherForecastManager weatherForecastManager = new WeatherForecastManager();
+      ViewFactory viewFactory = new ViewFactory(weatherForecastManager);
+      viewFactory.showMainWindow();
+    }
+
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}

@@ -1,7 +1,5 @@
 package it.dawidwojdyla.controller.services;
 
-import it.dawidwojdyla.WeatherForecastManager;
-import it.dawidwojdyla.controller.owm.OpenWeatherMap;
 import it.dawidwojdyla.model.WeatherConditionsOfTheLocation;
 import it.dawidwojdyla.model.WeatherForecast;
 import javafx.concurrent.Service;
@@ -19,19 +17,24 @@ import java.util.TimeZone;
  */
 public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation> {
 
+    private final String API_HOST = "https://api.openweathermap.org/data/2.5/onecall";
+    private final String API_KEY = "39af7a169432c32cc8f937e351c91f46";
     private final String latitude;
     private final String longitude;
     private String timeZone;
-    private WeatherForecastManager weatherForecastManager;
     private final List<WeatherForecast> forecasts = new ArrayList<>();
     WeatherConditionsOfTheLocation weatherConditionsOfTheLocation;
 
 
-    public FetchWeatherService(WeatherForecastManager weatherForecastManager, String latitude, String longitude) {
-        this.weatherForecastManager = weatherForecastManager;
+    public FetchWeatherService(String latitude, String longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
 
+    }
+
+    private String buildRequest() {
+        return API_HOST + "?lat=" + latitude + "&lon=" + longitude +
+                "&exclude=current,minutely,hourly,alerts&units=metric&appid=" + API_KEY;
     }
 
     @Override
@@ -40,8 +43,8 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
             @Override
             protected WeatherConditionsOfTheLocation call() {
 
-                OpenWeatherMap openWeatherMap = new OpenWeatherMap(latitude, longitude);
-                JSONObject jsonWeatherResponse = openWeatherMap.getWeatherForecast();
+                JSONResponseFetcherOnHttpRequest responseFetcher = new JSONResponseFetcherOnHttpRequest(buildRequest());
+                JSONObject jsonWeatherResponse = responseFetcher.getJSONResponse();
                 timeZone = jsonWeatherResponse.optString("timezone");
                 JSONArray dailyWeather = jsonWeatherResponse.getJSONArray("daily");
                 for (int i = 0; i < dailyWeather.length(); i++) {
