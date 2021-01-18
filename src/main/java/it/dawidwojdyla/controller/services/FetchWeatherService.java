@@ -21,14 +21,16 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
     private final String API_KEY = "39af7a169432c32cc8f937e351c91f46";
     private final String latitude;
     private final String longitude;
+    private final String placeName;
     private String timeZone;
     private final List<WeatherForecast> forecasts = new ArrayList<>();
     WeatherConditionsOfTheLocation weatherConditionsOfTheLocation;
 
 
-    public FetchWeatherService(String latitude, String longitude) {
+    public FetchWeatherService(String latitude, String longitude, String placeName) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.placeName = placeName;
 
     }
 
@@ -47,15 +49,12 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
                 JSONObject jsonWeatherResponse = responseFetcher.getJSONResponse();
                 timeZone = jsonWeatherResponse.optString("timezone");
                 JSONArray dailyWeather = jsonWeatherResponse.getJSONArray("daily");
-                for (int i = 0; i < dailyWeather.length(); i++) {
-                    if (i == 5) {
-                        break;
-                    }
+                for (int i = 0; i < 5; i++) {
                     JSONObject weatherOnDay = (JSONObject) dailyWeather.opt(i);
                     handleWeather(weatherOnDay);
                 }
 
-                weatherConditionsOfTheLocation = new WeatherConditionsOfTheLocation(latitude, longitude);
+                weatherConditionsOfTheLocation = new WeatherConditionsOfTheLocation(latitude, longitude, placeName);
                 weatherConditionsOfTheLocation.setWeatherForecasts(forecasts);
                 return weatherConditionsOfTheLocation;
             }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,38 +11,74 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="746.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="746.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="210.0">
          <children>
-            <Button layoutX="128.0" layoutY="71.0" mnemonicParsing="false" onAction="#currentLocationButtonAction" prefHeight="25.0" prefWidth="114.0" text="Show Weather" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="60.0" />
+            <Button layoutX="128.0" layoutY="71.0" mnemonicParsing="false" onAction="#currentLocationSearchButtonAction" prefHeight="25.0" prefWidth="114.0" text="Show Weather" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="60.0" />
             <TextField fx:id="currentLocationTextField" layoutX="75.0" layoutY="33.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="20.0" />
-            <VBox fx:id="currentLocationWeatherVBox" layoutY="137.0" prefHeight="484.0" prefWidth="369.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="140.0" />
-            <StackPane layoutX="1.0" layoutY="98.0" prefHeight="40.0" prefWidth="369.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="100.0">
+            <VBox fx:id="currentLocationWeatherVBox" layoutY="138.0" prefHeight="483.0" prefWidth="367.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="160.0" />
+            <StackPane layoutX="1.0" layoutY="94.0" prefHeight="40.0" prefWidth="367.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="120.0">
                <children>
-                  <Label fx:id="currentLocalizationName" prefHeight="25.0" prefWidth="333.0">
+                  <Label fx:id="currentLocationName">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                </children>
             </StackPane>
+            <AnchorPane fx:id="currentLocationSearchResultPane" prefHeight="160.0" prefWidth="369.0" style="-fx-background-color: white;" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button graphicTextGap="2.0" layoutX="94.0" layoutY="140.0" mnemonicParsing="false" onAction="#currentLocationSearchBackButtonAction" prefHeight="13.0" prefWidth="181.0" text="&lt;---" AnchorPane.topAnchor="140.0">
+                     <padding>
+                        <Insets bottom="-1.0" top="-1.0" />
+                     </padding>
+                  </Button>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="135.0" prefWidth="369.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane prefHeight="84.0" prefWidth="365.0">
+                           <children>
+                              <VBox fx:id="currentLocationSearchResultVBox" style="-fx-background-color: white;" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="524.0" prefWidth="348.0">
          <children>
-            <Button layoutX="128.0" layoutY="72.0" mnemonicParsing="false" onAction="#destinationButtonAction" prefHeight="25.0" prefWidth="114.0" text="Show Weather" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="60.0" />
+            <Button layoutX="128.0" layoutY="72.0" mnemonicParsing="false" onAction="#destinationSearchButtonAction" prefHeight="25.0" prefWidth="114.0" text="Show Weather" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="60.0" />
             <TextField fx:id="destinationTextField" layoutX="75.0" layoutY="35.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="20.0" />
-            <VBox fx:id="destinationWeatherVBox" layoutY="137.0" prefHeight="484.0" prefWidth="369.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="140.0" />
-            <StackPane layoutY="100.0" prefHeight="40.0" prefWidth="369.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="100.0">
+            <VBox fx:id="destinationWeatherVBox" layoutY="160.0" prefHeight="483.0" prefWidth="369.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="160.0" />
+            <StackPane layoutX="1.0" layoutY="90.0" prefHeight="40.0" prefWidth="367.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="120.0">
                <children>
-                  <Label fx:id="destinationName" prefHeight="25.0" prefWidth="333.0">
+                  <Label fx:id="destinationName">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                </children>
             </StackPane>
+            <AnchorPane fx:id="destinationSearchResultPane" prefHeight="160.0" prefWidth="369.0" style="-fx-background-color: white;" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button graphicTextGap="2.0" layoutX="94.0" layoutY="140.0" mnemonicParsing="false" onAction="#destinationSearchBackButtonAction" prefHeight="13.0" prefWidth="181.0" text="&lt;---" AnchorPane.topAnchor="140.0">
+                     <padding>
+                        <Insets bottom="-1.0" top="-1.0" />
+                     </padding>
+                  </Button>
+                  <ScrollPane fitToHeight="true" prefHeight="135.0" prefWidth="369.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <AnchorPane prefHeight="84.0" prefWidth="365.0">
+                           <children>
+                              <VBox fx:id="destinationSearchResultVBox" style="-fx-background-color: white;" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
   </items>

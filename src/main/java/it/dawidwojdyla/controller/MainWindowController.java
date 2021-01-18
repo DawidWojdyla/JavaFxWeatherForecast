@@ -2,6 +2,8 @@ package it.dawidwojdyla.controller;
 
 import it.dawidwojdyla.Launcher;
 import it.dawidwojdyla.WeatherForecastManager;
+import it.dawidwojdyla.controller.services.FetchGeoCoordinatesService;
+import it.dawidwojdyla.model.SearchCityResult;
 import it.dawidwojdyla.model.WeatherConditionsOfTheLocation;
 import it.dawidwojdyla.model.WeatherForecast;
 import javafx.fxml.FXML;
@@ -27,40 +29,81 @@ public class MainWindowController implements Initializable {
     private TextField currentLocationTextField;
 
     @FXML
+    private VBox currentLocationWeatherVBox;
+
+    @FXML
+    private Label currentLocationName;
+
+    @FXML
+    private AnchorPane currentLocationSearchResultPane;
+
+    @FXML
+    private VBox currentLocationSearchResultVBox;
+
+    @FXML
     private TextField destinationTextField;
 
     @FXML
     private VBox destinationWeatherVBox;
 
     @FXML
-    private VBox currentLocationWeatherVBox;
-
-    @FXML
-    private Label currentLocalizationName;
-
-    @FXML
     private Label destinationName;
 
     @FXML
-    void currentLocationButtonAction() {
-
-    }
+    private AnchorPane destinationSearchResultPane;
 
     @FXML
-    void destinationButtonAction() {
+    private VBox destinationSearchResultVBox;
 
-    }
 
     WeatherForecastManager weatherForecastManager;
     String fxmlName;
 
-    private WeatherConditionsOfTheLocation currentLocationForecast;
-    private WeatherConditionsOfTheLocation destinationForecast;
-
-
     public MainWindowController(WeatherForecastManager weatherForecastManager, String fxmlName) {
         this.weatherForecastManager = weatherForecastManager;
         this.fxmlName = fxmlName;
+    }
+
+    @FXML
+    void currentLocationSearchBackButtonAction() {
+        currentLocationSearchResultPane.setVisible(false);
+    }
+
+    @FXML
+    void destinationSearchBackButtonAction() {
+        destinationSearchResultPane.setVisible(false);
+    }
+
+    @FXML
+    void currentLocationSearchButtonAction() {
+
+        fetchGeoCoordinates(currentLocationTextField.getText(), currentLocationSearchResultVBox, currentLocationName,
+                currentLocationWeatherVBox, currentLocationSearchResultPane);
+    }
+
+    @FXML
+    void destinationSearchButtonAction() {
+        fetchGeoCoordinates(destinationTextField.getText(), destinationSearchResultVBox, destinationName,
+                destinationWeatherVBox, destinationSearchResultPane);
+    }
+
+    private void fetchGeoCoordinates(String searchText, VBox resultVBox, Label placeNameLabel, VBox weatherForecastVBox, AnchorPane searchResultPane) {
+        FetchGeoCoordinatesService geoCoordinateService = new FetchGeoCoordinatesService(searchText);
+        geoCoordinateService.setOnSucceeded(e -> {
+            resultVBox.getChildren().clear();
+            for (SearchCityResult result: geoCoordinateService.getValue()) {
+                Label label = new Label(result.getSearchResultDisplayText());
+                label.setMaxWidth(Double.MAX_VALUE);
+                label.getStyleClass().add("searchingResultLabel");
+                label.setOnMouseClicked(e1 -> {
+                    weatherForecastManager.fetchWeather(result, placeNameLabel, weatherForecastVBox);
+                    searchResultPane.setVisible(false);
+                });
+                resultVBox.getChildren().add(label);
+            }
+            searchResultPane.setVisible(true);
+        });
+        geoCoordinateService.start();
     }
 
     public String getFxmlName() {
@@ -69,29 +112,16 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        weatherForecastManager.fetchDefaultLocationsWeather(currentLocationWeatherVBox, currentLocationName,
+                destinationWeatherVBox, destinationName);
     }
 
-    public void setCurrentLocationForecast() {
-        System.out.println("SETTING UP FORECAST FOR CURRENT LOCATION");
-        currentLocationForecast = weatherForecastManager.getCurrentLocationForecast();
-        currentLocalizationName.setText(currentLocationForecast.getPlaceName());
-        currentLocationWeatherVBox.getChildren().removeAll();
-        for(int i = 0; i < currentLocationForecast.getWeatherForecasts().size(); i++) {
-            WeatherForecast weatherForecast = currentLocationForecast.getWeatherForecasts().get(i);
-            currentLocationWeatherVBox.getChildren().add(returnWeatherDayAnchorPane(weatherForecast));
-        }
-    }
-
-    public void setDestinationForecast() {
-        System.out.println("SETTING UP FORECAST FOR DESTINATION");
-        destinationForecast = weatherForecastManager.getDestinationForecast();
-        destinationName.setText(destinationForecast.getPlaceName());
-        destinationWeatherVBox.getChildren().removeAll();
-
-        for (int i = 0; i < destinationForecast.getWeatherForecasts().size(); i++) {
-            WeatherForecast weatherForecast = destinationForecast.getWeatherForecasts().get(i);
-            destinationWeatherVBox.getChildren().add(returnWeatherDayAnchorPane(weatherForecast));
+    public void setWeatherForecast(WeatherConditionsOfTheLocation weatherConditionsOfTheLocation,
+                                   Label placeNameLabel, VBox weatherForecastVBox) {
+        placeNameLabel.setText(weatherConditionsOfTheLocation.getPlaceName());
+        weatherForecastVBox.getChildren().clear();
+        for (WeatherForecast weatherForecast: weatherConditionsOfTheLocation.getWeatherForecasts()) {
+            weatherForecastVBox.getChildren().add(returnWeatherDayAnchorPane(weatherForecast));
         }
     }
 

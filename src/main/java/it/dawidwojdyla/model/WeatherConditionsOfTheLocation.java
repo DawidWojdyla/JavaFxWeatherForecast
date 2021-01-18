@@ -13,25 +13,10 @@ public class WeatherConditionsOfTheLocation {
     private String latitude;
     private String longitude;
 
-    public WeatherConditionsOfTheLocation(String latitude, String longitude) {
+    public WeatherConditionsOfTheLocation(String latitude, String longitude, String placeName) {
         this.latitude = latitude;
         this.longitude = longitude;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+        this.placeName = placeName;
     }
 
     public List<WeatherForecast> getWeatherForecasts() {
@@ -44,9 +29,5 @@ public class WeatherConditionsOfTheLocation {
 
     public String getPlaceName() {
         return placeName;
-    }
-
-    public void setPlaceName(String placeName) {
-        this.placeName = placeName;
     }
 }

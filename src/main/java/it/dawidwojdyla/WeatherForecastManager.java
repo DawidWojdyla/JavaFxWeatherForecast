@@ -2,8 +2,9 @@ package it.dawidwojdyla;
 
 import it.dawidwojdyla.controller.MainWindowController;
 import it.dawidwojdyla.controller.services.FetchWeatherService;
-import it.dawidwojdyla.model.WeatherConditionsOfTheLocation;
-import javafx.concurrent.Service;
+import it.dawidwojdyla.model.SearchCityResult;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 
 /**
@@ -13,60 +14,39 @@ public class WeatherForecastManager {
 
     private static final String CURRENT_LOCATION_LATITUDE_DEFAULT = "50.0412";
     private static final String CURRENT_LOCATION_LONGITUDE_DEFAULT = "21.9991";
-    private static final String CURRENT_LOCATION_NAME = "Rzeszów, Poland";
+    private static final String CURRENT_LOCATION_CITY_DEFAULT = "Rzeszów";
+    private static final String CURRENT_LOCATION_COUNTRY_DEFAULT = "Poland";
     private static final String DESTINATION_LATITUDE_DEFAULT = "45.4420043";
     private static final String DESTINATION_LONGITUDE_DEFAULT = "12.3378095";
-    private static final String DESTINATION_NAME = "Venice, Italy";
-
-    private WeatherConditionsOfTheLocation currentLocationForecast;
-    private WeatherConditionsOfTheLocation destinationForecast;
+    private static final String DESTINATION_CITY_DEFAULT = "Venice";
+    private static final String DESTINATION_COUNTRY_DEFAULT = "Italy";
 
     private MainWindowController mainWindowController;
-    private Service<WeatherConditionsOfTheLocation> currentLocationForecastFetcher;
-    private Service<WeatherConditionsOfTheLocation> destinationForecastFetcher;
 
     public WeatherForecastManager() {
-
-        currentLocationForecastFetcher = new FetchWeatherService(
-                CURRENT_LOCATION_LATITUDE_DEFAULT, CURRENT_LOCATION_LONGITUDE_DEFAULT);
-
-        currentLocationForecastFetcher.setOnSucceeded(e -> {
-            currentLocationForecast = currentLocationForecastFetcher.getValue();
-            currentLocationForecast.setPlaceName(CURRENT_LOCATION_NAME);
-            mainWindowController.setCurrentLocationForecast();
-        });
-
-        currentLocationForecastFetcher.start();
-
-        destinationForecastFetcher = new FetchWeatherService(
-                DESTINATION_LATITUDE_DEFAULT, DESTINATION_LONGITUDE_DEFAULT);
-        destinationForecastFetcher.setOnSucceeded(e -> {
-            destinationForecast = destinationForecastFetcher.getValue();
-            destinationForecast.setPlaceName(DESTINATION_NAME);
-            mainWindowController.setDestinationForecast();
-        });
-
-        destinationForecastFetcher.start();
     }
 
     public void setMainWindowController(MainWindowController mainWindowController) {
         this.mainWindowController = mainWindowController;
     }
 
-    public WeatherConditionsOfTheLocation getCurrentLocationForecast() {
-        return currentLocationForecast;
+    public void fetchWeather(SearchCityResult result, Label placeNameLabel, VBox weatherForecastVBox) {
+        FetchWeatherService fetchWeatherService = new FetchWeatherService(
+                result.getLatitude(), result.getLongitude(), result.getDisplayName());
+        fetchWeatherService.setOnSucceeded(e -> mainWindowController.setWeatherForecast(fetchWeatherService.getValue(),
+                placeNameLabel, weatherForecastVBox));
+        fetchWeatherService.start();
     }
 
-    public void setCurrentLocationForecast(WeatherConditionsOfTheLocation currentLocationForecast) {
-        this.currentLocationForecast = currentLocationForecast;
-    }
+    public void fetchDefaultLocationsWeather(VBox currentLocationWeatherVBox, Label currentLocationName,
+                                             VBox destinationWeatherVBox, Label destinationName) {
 
-    public WeatherConditionsOfTheLocation getDestinationForecast() {
-        return destinationForecast;
-    }
+        fetchWeather(new SearchCityResult(CURRENT_LOCATION_LATITUDE_DEFAULT, CURRENT_LOCATION_LONGITUDE_DEFAULT,
+                CURRENT_LOCATION_CITY_DEFAULT, CURRENT_LOCATION_COUNTRY_DEFAULT), currentLocationName,
+                currentLocationWeatherVBox);
 
-    public void setDestinationForecast(WeatherConditionsOfTheLocation destinationForecast) {
-        this.destinationForecast = destinationForecast;
+        fetchWeather(new SearchCityResult(DESTINATION_LATITUDE_DEFAULT,
+                DESTINATION_LONGITUDE_DEFAULT, DESTINATION_CITY_DEFAULT, DESTINATION_COUNTRY_DEFAULT), destinationName,
+                destinationWeatherVBox);
     }
-
 }

@@ -1,0 +1,16 @@
+* {
+    backgroundColor: white;
+}
+
+.container {
+}
+
+.searchingResultLabel {
+    -fx-padding: 2px;
+    -fx-margin: 5px;
+    -fx-cursor: hand;
+}
+
+.searchingResultLabel:hover {
+    -fx-background-color: yellow;
+}

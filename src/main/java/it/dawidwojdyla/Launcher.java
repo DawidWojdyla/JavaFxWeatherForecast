@@ -4,9 +4,8 @@ import it.dawidwojdyla.view.ViewFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-
 /**
- * JavaFX App
+ * Created by Dawid on 2021-01-11.
  */
 public class Launcher extends Application {
 
@@ -17,7 +16,6 @@ public class Launcher extends Application {
       ViewFactory viewFactory = new ViewFactory(weatherForecastManager);
       viewFactory.showMainWindow();
     }
-
 
     public static void main(String[] args) {
         launch(args);
