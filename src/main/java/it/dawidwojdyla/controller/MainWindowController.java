@@ -14,7 +14,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,9 +31,6 @@ public class MainWindowController implements Initializable {
     private VBox currentLocationWeatherVBox;
 
     @FXML
-    private Label currentLocationName;
-
-    @FXML
     private AnchorPane currentLocationSearchResultPane;
 
     @FXML
@@ -45,9 +41,6 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private VBox destinationWeatherVBox;
-
-    @FXML
-    private Label destinationName;
 
     @FXML
     private AnchorPane destinationSearchResultPane;
@@ -77,17 +70,17 @@ public class MainWindowController implements Initializable {
     @FXML
     void currentLocationSearchButtonAction() {
 
-        fetchGeoCoordinates(currentLocationTextField.getText(), currentLocationSearchResultVBox, currentLocationName,
+        fetchGeoCoordinates(currentLocationTextField.getText(), currentLocationSearchResultVBox,
                 currentLocationWeatherVBox, currentLocationSearchResultPane);
     }
 
     @FXML
     void destinationSearchButtonAction() {
-        fetchGeoCoordinates(destinationTextField.getText(), destinationSearchResultVBox, destinationName,
+        fetchGeoCoordinates(destinationTextField.getText(), destinationSearchResultVBox,
                 destinationWeatherVBox, destinationSearchResultPane);
     }
 
-    private void fetchGeoCoordinates(String searchText, VBox resultVBox, Label placeNameLabel, VBox weatherForecastVBox, AnchorPane searchResultPane) {
+    private void fetchGeoCoordinates(String searchText, VBox resultVBox, VBox weatherForecastVBox, AnchorPane searchResultPane) {
         FetchGeoCoordinatesService geoCoordinateService = new FetchGeoCoordinatesService(searchText);
         geoCoordinateService.setOnSucceeded(e -> {
             resultVBox.getChildren().clear();
@@ -96,7 +89,7 @@ public class MainWindowController implements Initializable {
                 label.setMaxWidth(Double.MAX_VALUE);
                 label.getStyleClass().add("searchingResultLabel");
                 label.setOnMouseClicked(e1 -> {
-                    weatherForecastManager.fetchWeather(result, placeNameLabel, weatherForecastVBox);
+                    weatherForecastManager.fetchWeather(result, weatherForecastVBox);
                     searchResultPane.setVisible(false);
                 });
                 resultVBox.getChildren().add(label);
@@ -112,14 +105,15 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        weatherForecastManager.fetchDefaultLocationsWeather(currentLocationWeatherVBox, currentLocationName,
-                destinationWeatherVBox, destinationName);
+        weatherForecastManager.fetchDefaultLocationsWeather(currentLocationWeatherVBox, destinationWeatherVBox);
     }
 
-    public void setWeatherForecast(WeatherConditionsOfTheLocation weatherConditionsOfTheLocation,
-                                   Label placeNameLabel, VBox weatherForecastVBox) {
-        placeNameLabel.setText(weatherConditionsOfTheLocation.getPlaceName());
+    public void setWeatherForecast(WeatherConditionsOfTheLocation weatherConditionsOfTheLocation, VBox weatherForecastVBox) {
+
         weatherForecastVBox.getChildren().clear();
+        Label placeNameLabel = new Label(weatherConditionsOfTheLocation.getPlaceName());
+        placeNameLabel.getStyleClass().add("placeNameLabel");
+        weatherForecastVBox.getChildren().add(placeNameLabel);
         for (WeatherForecast weatherForecast: weatherConditionsOfTheLocation.getWeatherForecasts()) {
             weatherForecastVBox.getChildren().add(returnWeatherDayAnchorPane(weatherForecast));
         }
@@ -151,8 +145,8 @@ public class MainWindowController implements Initializable {
         AnchorPane.setRightAnchor(imageView,2.0);
 
         anchorPane.getChildren().addAll(date, temperature, imageView, description);
-        anchorPane.setMinSize(100,97);
-        anchorPane.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0.5px 0px 0.5px 0px");
+        anchorPane.setMinSize(100,100);
+        anchorPane.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0.5px 0px 0px 0px");
         return anchorPane;
     }
 }

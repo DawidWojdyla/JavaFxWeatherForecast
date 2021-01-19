@@ -30,23 +30,20 @@ public class WeatherForecastManager {
         this.mainWindowController = mainWindowController;
     }
 
-    public void fetchWeather(SearchCityResult result, Label placeNameLabel, VBox weatherForecastVBox) {
+    public void fetchWeather(SearchCityResult result, VBox weatherForecastVBox) {
         FetchWeatherService fetchWeatherService = new FetchWeatherService(
                 result.getLatitude(), result.getLongitude(), result.getDisplayName());
-        fetchWeatherService.setOnSucceeded(e -> mainWindowController.setWeatherForecast(fetchWeatherService.getValue(),
-                placeNameLabel, weatherForecastVBox));
+        fetchWeatherService.setOnSucceeded(e ->
+                mainWindowController.setWeatherForecast(fetchWeatherService.getValue(), weatherForecastVBox));
         fetchWeatherService.start();
     }
 
-    public void fetchDefaultLocationsWeather(VBox currentLocationWeatherVBox, Label currentLocationName,
-                                             VBox destinationWeatherVBox, Label destinationName) {
+    public void fetchDefaultLocationsWeather(VBox currentLocationWeatherVBox, VBox destinationWeatherVBox) {
 
         fetchWeather(new SearchCityResult(CURRENT_LOCATION_LATITUDE_DEFAULT, CURRENT_LOCATION_LONGITUDE_DEFAULT,
-                CURRENT_LOCATION_CITY_DEFAULT, CURRENT_LOCATION_COUNTRY_DEFAULT), currentLocationName,
-                currentLocationWeatherVBox);
+                CURRENT_LOCATION_CITY_DEFAULT, CURRENT_LOCATION_COUNTRY_DEFAULT), currentLocationWeatherVBox);
 
-        fetchWeather(new SearchCityResult(DESTINATION_LATITUDE_DEFAULT,
-                DESTINATION_LONGITUDE_DEFAULT, DESTINATION_CITY_DEFAULT, DESTINATION_COUNTRY_DEFAULT), destinationName,
-                destinationWeatherVBox);
+        fetchWeather(new SearchCityResult(DESTINATION_LATITUDE_DEFAULT, DESTINATION_LONGITUDE_DEFAULT,
+                DESTINATION_CITY_DEFAULT, DESTINATION_COUNTRY_DEFAULT), destinationWeatherVBox);
     }
 }

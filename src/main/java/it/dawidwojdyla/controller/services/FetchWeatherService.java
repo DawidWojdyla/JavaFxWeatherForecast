@@ -49,7 +49,10 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
                 JSONObject jsonWeatherResponse = responseFetcher.getJSONResponse();
                 timeZone = jsonWeatherResponse.optString("timezone");
                 JSONArray dailyWeather = jsonWeatherResponse.getJSONArray("daily");
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < dailyWeather.length(); i++) {
+                    if (i == 5) {
+                        break;
+                    }
                     JSONObject weatherOnDay = (JSONObject) dailyWeather.opt(i);
                     handleWeather(weatherOnDay);
                 }
