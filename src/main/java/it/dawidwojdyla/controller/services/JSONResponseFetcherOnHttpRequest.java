@@ -1,7 +1,6 @@
 package it.dawidwojdyla.controller.services;
 
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,33 +14,36 @@ import java.nio.charset.StandardCharsets;
 public class JSONResponseFetcherOnHttpRequest {
 
     private String request;
+    private final int NUMBER_OF_TRIES = 3;
 
     public JSONResponseFetcherOnHttpRequest(String request) {
         this.request = request;
     }
 
     public JSONObject getJSONResponse() {
-        try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(request).openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
-            connection.connect();
+        for (int i = 0; i < NUMBER_OF_TRIES; i++) {
+            try {
+                HttpURLConnection connection = (HttpURLConnection) new URL(request).openConnection();
+                connection.setRequestMethod("GET");
+                connection.setDoOutput(true);
+                connection.connect();
 
 
-            InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-            StringBuilder response = new StringBuilder();
-            String responseLine;
-            while ((responseLine = bufferedReader.readLine()) != null) {
-                response.append(responseLine);
+                StringBuilder response = new StringBuilder();
+                String responseLine;
+                while ((responseLine = bufferedReader.readLine()) != null) {
+                    response.append(responseLine);
+                }
+
+                return new JSONObject(response.toString());
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            return new JSONObject(response.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
+        return null;
     }
 }
