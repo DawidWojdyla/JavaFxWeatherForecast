@@ -3,7 +3,6 @@ package it.dawidwojdyla;
 import it.dawidwojdyla.controller.MainWindowController;
 import it.dawidwojdyla.controller.services.FetchWeatherService;
 import it.dawidwojdyla.model.SearchCityResult;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 

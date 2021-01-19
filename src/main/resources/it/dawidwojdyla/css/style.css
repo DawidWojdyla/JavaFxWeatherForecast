@@ -10,6 +10,11 @@
 
 }
 
+.weather-item-pane {
+    -fx-border-color: black;
+    -fx-border-width: 0.5px 0px 0px 0px;
+}
+
 .placeNameLabel {
     -fx-padding: 5px;
     -fx-font-size: 18px;

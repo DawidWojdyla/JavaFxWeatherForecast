@@ -1,14 +1,12 @@
 package it.dawidwojdyla.model;
 
-import java.text.SimpleDateFormat;
-
 /**
  * Created by Dawid on 2021-01-13.
  */
 public class WeatherForecast {
 
-    String minTemp;
-    String maxTemp;
+    float minTemp;
+    float maxTemp;
     String probabilityOfPrecipitation;
     String rain;
     String snow;
@@ -22,8 +20,6 @@ public class WeatherForecast {
     String iconName;
 
     public WeatherForecast() {
-        snow = "no snow";
-        rain = "no rain";
     }
 
     public String getWindSpeed() {
@@ -34,19 +30,19 @@ public class WeatherForecast {
         this.windSpeed = windSpeed;
     }
 
-    public String getMinTemp() {
+    public float getMinTemp() {
         return minTemp;
     }
 
-    public void setMinTemp(String minTemp) {
+    public void setMinTemp(float minTemp) {
         this.minTemp = minTemp;
     }
 
-    public String getMaxTemp() {
+    public float getMaxTemp() {
         return maxTemp;
     }
 
-    public void setMaxTemp(String maxTemp) {
+    public void setMaxTemp(float maxTemp) {
         this.maxTemp = maxTemp;
     }
 

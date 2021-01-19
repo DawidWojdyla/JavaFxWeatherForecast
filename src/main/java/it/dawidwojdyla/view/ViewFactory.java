@@ -21,15 +21,9 @@ public class ViewFactory {
     }
 
     public void showMainWindow() {
-        MainWindowController mainWindowController = new MainWindowController(weatherForecastManager,"MainWindow.fxml");
-        initializeStage(mainWindowController);
-        weatherForecastManager.setMainWindowController(mainWindowController);
-    }
-
-    public void initializeStage(MainWindowController controller) {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("fxml/" + controller.getFxmlName()));
-        fxmlLoader.setController(controller);
+        MainWindowController mainWindowController = new MainWindowController(weatherForecastManager);
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("fxml/MainWindow.fxml"));
+        fxmlLoader.setController(mainWindowController);
         Parent parent;
         try {
             parent = fxmlLoader.load();
@@ -41,7 +35,9 @@ public class ViewFactory {
         Scene scene = new Scene(parent);
         scene.getStylesheets().add(Launcher.class.getResource("css/style.css").toExternalForm());
         Stage stage = new Stage();
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
     }
 }

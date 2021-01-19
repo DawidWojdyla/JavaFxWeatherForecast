@@ -70,8 +70,9 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
 
         JSONObject temperatures = (JSONObject) jsonWeatherDay.get("temp");
 
-        weatherForecast.setMinTemp(String.format("%.1f", temperatures.optFloat("min")));
-        weatherForecast.setMaxTemp(String.format("%.1f", temperatures.optFloat("max")));
+        weatherForecast.setMinTemp((float) (Math.round((temperatures.optDouble("min")) * 2) / 2.0));
+        weatherForecast.setMaxTemp((float) (Math.round((temperatures.optDouble("max")) * 2) / 2.0));
+
         weatherForecast.setPressure(jsonWeatherDay.optString("pressure"));
         weatherForecast.setHumidity(jsonWeatherDay.optString("humidity"));
         weatherForecast.setProbabilityOfPrecipitation(jsonWeatherDay.optString("pop"));
@@ -85,9 +86,13 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
 
         if(jsonWeatherDay.has("rain")) {
             weatherForecast.setRain(jsonWeatherDay.optString("rain"));
+        } else {
+            weatherForecast.setRain("no rain");
         }
         if (jsonWeatherDay.has("snow")) {
             weatherForecast.setSnow(jsonWeatherDay.optString("snow"));
+        } else {
+            weatherForecast.setSnow("no snow");
         }
 
         forecasts.add(weatherForecast);

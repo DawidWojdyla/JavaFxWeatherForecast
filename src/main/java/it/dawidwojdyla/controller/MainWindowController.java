@@ -52,9 +52,8 @@ public class MainWindowController implements Initializable {
     WeatherForecastManager weatherForecastManager;
     String fxmlName;
 
-    public MainWindowController(WeatherForecastManager weatherForecastManager, String fxmlName) {
+    public MainWindowController(WeatherForecastManager weatherForecastManager) {
         this.weatherForecastManager = weatherForecastManager;
-        this.fxmlName = fxmlName;
     }
 
     @FXML
@@ -99,12 +98,9 @@ public class MainWindowController implements Initializable {
         geoCoordinateService.start();
     }
 
-    public String getFxmlName() {
-        return fxmlName;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        weatherForecastManager.setMainWindowController(this);
         weatherForecastManager.fetchDefaultLocationsWeather(currentLocationWeatherVBox, destinationWeatherVBox);
     }
 
@@ -146,7 +142,62 @@ public class MainWindowController implements Initializable {
 
         anchorPane.getChildren().addAll(date, temperature, imageView, description);
         anchorPane.setMinSize(100,100);
-        anchorPane.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0.5px 0px 0px 0px");
+        anchorPane.getStyleClass().add("weather-item-pane");
+        anchorPane.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, "
+                + getRGBColor(weatherForecast.getMinTemp()) + ", " + getRGBColor(weatherForecast.getMaxTemp()) + ")");
+
         return anchorPane;
+    }
+
+
+    private String getRGBColor(double temperature){
+        double red;
+        double green;
+        double blue;
+        double factor = 150 - 1.69 * (40 + temperature);
+
+        if (factor <= 66) {
+            red = 255;
+            green = 99.4708025861 * Math.log(factor) - 161.1195681661;
+
+            if (factor <= 19) {
+                blue = 0;
+            } else {
+                blue = factor - 10;
+                blue = 138.5177312231 * Math.log(blue) - 305.0447927307;
+            }
+        } else {
+
+            red = factor - 60;
+            red = 329.698727466 * Math.pow(red, -0.1332047592);
+
+            green = factor - 60;
+            green = 288.1221695283 * Math.pow(green, -0.0755148492);
+
+            blue = 255;
+        }
+
+        if (red < 0) {
+            red = 0;
+        } else if(red > 255) {
+            red = 255;
+        }
+        if (green < 0 || Double.isNaN(green)) {
+            green = 0;
+        } else if (green > 255) {
+            green = 255;
+        }
+
+        if (blue < 0) {
+            blue = 0;
+        } else if (blue > 255) {
+            blue = 255;
+        }
+
+        int r = (int) red;
+        int g = (int) green;
+        int b = (int) blue;
+
+        return "rgb(" + r + ", " + g + ", " + b + ")";
     }
 }
