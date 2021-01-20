@@ -31,7 +31,6 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
         this.latitude = latitude;
         this.longitude = longitude;
         this.placeName = placeName;
-
     }
 
     private String buildRequest() {
@@ -70,16 +69,17 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
 
         JSONObject temperatures = (JSONObject) jsonWeatherDay.get("temp");
 
-        weatherForecast.setMinTemp((float) (Math.round((temperatures.optDouble("min")) * 2) / 2.0));
-        weatherForecast.setMaxTemp((float) (Math.round((temperatures.optDouble("max")) * 2) / 2.0));
+        weatherForecast.setMinTemp(Math.round(temperatures.optFloat("min")));
+        weatherForecast.setMaxTemp(Math.round(temperatures.optFloat("max")));
 
         weatherForecast.setPressure(jsonWeatherDay.optString("pressure"));
         weatherForecast.setHumidity(jsonWeatherDay.optString("humidity"));
         weatherForecast.setProbabilityOfPrecipitation(jsonWeatherDay.optString("pop"));
         weatherForecast.setWindSpeed(jsonWeatherDay.optString("wind_speed"));
         weatherForecast.setClouds(jsonWeatherDay.optString("clouds"));
-        weatherForecast.setSunrise(prepareDate(jsonWeatherDay.optLong("sunrise")));
-        weatherForecast.setSunset(prepareDate(jsonWeatherDay.optLong("sunset")));
+        weatherForecast.setSunrise(prepareSunTime(jsonWeatherDay.optLong("sunrise")));
+        weatherForecast.setSunset(prepareSunTime(jsonWeatherDay.optLong("sunset")));
+        weatherForecast.setDate(prepareDate(jsonWeatherDay.optLong("sunset")));
         JSONArray weather = (JSONArray) jsonWeatherDay.opt("weather");
         weatherForecast.setIconName(weather.getJSONObject(0).optString("icon"));
         weatherForecast.setDescription(weather.getJSONObject(0).optString("description"));
@@ -100,7 +100,13 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
 
     private String prepareDate(long unixValue) {
         Date date = new Date(unixValue * 1000);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM EEEE");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
+        return simpleDateFormat.format(date);
+    }
+    private String prepareSunTime(long unixValue) {
+        Date date = new Date(unixValue * 1000);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
         return simpleDateFormat.format(date);
     }

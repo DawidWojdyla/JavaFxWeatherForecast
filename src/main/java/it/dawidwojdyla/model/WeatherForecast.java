@@ -5,8 +5,8 @@ package it.dawidwojdyla.model;
  */
 public class WeatherForecast {
 
-    float minTemp;
-    float maxTemp;
+    int minTemp;
+    int maxTemp;
     String probabilityOfPrecipitation;
     String rain;
     String snow;
@@ -18,8 +18,17 @@ public class WeatherForecast {
     String sunrise;
     String description;
     String iconName;
+    String date;
 
     public WeatherForecast() {
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getWindSpeed() {
@@ -30,19 +39,19 @@ public class WeatherForecast {
         this.windSpeed = windSpeed;
     }
 
-    public float getMinTemp() {
+    public int getMinTemp() {
         return minTemp;
     }
 
-    public void setMinTemp(float minTemp) {
+    public void setMinTemp(int minTemp) {
         this.minTemp = minTemp;
     }
 
-    public float getMaxTemp() {
+    public int getMaxTemp() {
         return maxTemp;
     }
 
-    public void setMaxTemp(float maxTemp) {
+    public void setMaxTemp(int maxTemp) {
         this.maxTemp = maxTemp;
     }
 

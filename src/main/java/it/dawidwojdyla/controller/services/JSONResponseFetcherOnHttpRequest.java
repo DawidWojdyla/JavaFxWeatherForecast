@@ -28,7 +28,6 @@ public class JSONResponseFetcherOnHttpRequest {
                 connection.setDoOutput(true);
                 connection.connect();
 
-
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
