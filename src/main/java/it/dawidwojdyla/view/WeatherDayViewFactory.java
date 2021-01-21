@@ -57,7 +57,7 @@ public class WeatherDayViewFactory {
     private static HBox setTopIconsHBox(WeatherForecast weatherForecast) {
 
         Image sun = new Image(Launcher.class.getResourceAsStream
-                ("icons/sun_small.png"));
+                ("icons/sun_small3.png"));
         ImageView sunImageView = new ImageView(sun);
         Label sunriseLabel = new Label(weatherForecast.getSunrise());
         HBox sunriseHBox = new HBox(sunImageView, sunriseLabel);
@@ -70,7 +70,7 @@ public class WeatherDayViewFactory {
         HBox sunsetHBox = new HBox(moonImageView, sunset);
 
         HBox topIconsHBox = new HBox(sunriseHBox, sunsetHBox);
-        topIconsHBox.setSpacing(5);
+        topIconsHBox.setSpacing(10);
         AnchorPane.setTopAnchor(topIconsHBox, 2.0);
         AnchorPane.setLeftAnchor(topIconsHBox, 135.0);
 
@@ -79,19 +79,24 @@ public class WeatherDayViewFactory {
 
     private static HBox setBottomIconsHBox(WeatherForecast weatherForecast) {
 
-        Image probabilityOfPrecipitationIcon = new Image(Launcher.class.getResourceAsStream
-                ("icons/umbrella_small.png"));
+        Image probabilityOfPrecipitationIcon = new Image(
+                Launcher.class.getResourceAsStream("icons/umbrella_small.png"));
         ImageView probabilityOfPrecipitationIconImageView = new ImageView(probabilityOfPrecipitationIcon);
         Label popLabel = new Label(weatherForecast.getProbabilityOfPrecipitation());
         HBox popHBox = new HBox(probabilityOfPrecipitationIconImageView, popLabel);
         popHBox.setSpacing(2);
 
-        Image pressureIcon = new Image(Launcher.class.getResourceAsStream
-                ("icons/pressure_small.png"));
+        Image pressureIcon = new Image(Launcher.class.getResourceAsStream("icons/pressure_small.png"));
         ImageView pressureImageView = new ImageView(pressureIcon);
-        Label pressureLabel = new Label(weatherForecast.getPressure() + "hPa");
+        Label pressureLabel = new Label(weatherForecast.getPressure() + "mb");
         HBox pressureHBox = new HBox(pressureImageView, pressureLabel);
         pressureHBox.setSpacing(2);
+
+//        Image cloudIcon = new Image(Launcher.class.getResourceAsStream("icons/cloud_small2.png"));
+//        ImageView cloudImageView = new ImageView(cloudIcon);
+//        Label cloudinessLabel = new Label(weatherForecast.getCloudiness());
+//        HBox cloudsHBox = new HBox(cloudImageView, cloudinessLabel);
+//        cloudsHBox.setSpacing(2);
 
         HBox bottomIconsHBox = new HBox(popHBox, pressureHBox);
         bottomIconsHBox.setSpacing(10);

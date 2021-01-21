@@ -10,6 +10,16 @@
 
 }
 
+.info-label {
+    -fx-font-size: 18px;
+}
+
+.search-button:focused {
+    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5, 4, 3;
+}
+
 .weather-item-pane {
     -fx-border-color: black;
     -fx-border-width: 0.5px 0px 0px 0px;

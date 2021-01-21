@@ -12,7 +12,7 @@ public class WeatherForecast {
     String snow;
     String pressure;
     String humidity;
-    String clouds;
+    String cloudiness;
     String windSpeed;
     String sunset;
     String sunrise;
@@ -95,12 +95,12 @@ public class WeatherForecast {
         this.humidity = humidity;
     }
 
-    public String getClouds() {
-        return clouds;
+    public String getCloudiness() {
+        return cloudiness;
     }
 
-    public void setClouds(String clouds) {
-        this.clouds = clouds;
+    public void setCloudiness(String cloudiness) {
+        this.cloudiness = cloudiness;
     }
 
     public String getSunset() {

@@ -73,7 +73,8 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
         weatherForecast.setHumidity(jsonWeatherDay.optString("humidity"));
         weatherForecast.setProbabilityOfPrecipitation((int)(jsonWeatherDay.optFloat("pop") * 100) + "%");
         weatherForecast.setWindSpeed(jsonWeatherDay.optString("wind_speed"));
-        weatherForecast.setClouds(jsonWeatherDay.optString("clouds"));
+        weatherForecast.setCloudiness(jsonWeatherDay.optString("clouds") + "%");
+        //weatherForecast.setClouds(jsonWeatherDay.optString("clouds"));
         weatherForecast.setSunrise(prepareSunTime(jsonWeatherDay.optLong("sunrise")));
         weatherForecast.setSunset(prepareSunTime(jsonWeatherDay.optLong("sunset")));
         weatherForecast.setDate(prepareDate(jsonWeatherDay.optLong("sunset")));
