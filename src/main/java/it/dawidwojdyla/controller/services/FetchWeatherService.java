@@ -7,10 +7,7 @@ import javafx.concurrent.Task;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * Created by Dawid on 2021-01-14.
@@ -74,7 +71,7 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
 
         weatherForecast.setPressure(jsonWeatherDay.optString("pressure"));
         weatherForecast.setHumidity(jsonWeatherDay.optString("humidity"));
-        weatherForecast.setProbabilityOfPrecipitation(jsonWeatherDay.optString("pop"));
+        weatherForecast.setProbabilityOfPrecipitation((int)(jsonWeatherDay.optFloat("pop") * 100) + "%");
         weatherForecast.setWindSpeed(jsonWeatherDay.optString("wind_speed"));
         weatherForecast.setClouds(jsonWeatherDay.optString("clouds"));
         weatherForecast.setSunrise(prepareSunTime(jsonWeatherDay.optLong("sunrise")));
@@ -83,24 +80,15 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
         JSONArray weather = (JSONArray) jsonWeatherDay.opt("weather");
         weatherForecast.setIconName(weather.getJSONObject(0).optString("icon"));
         weatherForecast.setDescription(weather.getJSONObject(0).optString("description"));
-
-        if(jsonWeatherDay.has("rain")) {
-            weatherForecast.setRain(jsonWeatherDay.optString("rain"));
-        } else {
-            weatherForecast.setRain("no rain");
-        }
-        if (jsonWeatherDay.has("snow")) {
-            weatherForecast.setSnow(jsonWeatherDay.optString("snow"));
-        } else {
-            weatherForecast.setSnow("no snow");
-        }
+        weatherForecast.setRain(jsonWeatherDay.optString("rain", "no rain"));
+        weatherForecast.setSnow(jsonWeatherDay.optString("snow", "no snow"));
 
         forecasts.add(weatherForecast);
     }
 
     private String prepareDate(long unixValue) {
         Date date = new Date(unixValue * 1000);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM EEEE");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM EEEE", Locale.ENGLISH);
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
         return simpleDateFormat.format(date);
     }

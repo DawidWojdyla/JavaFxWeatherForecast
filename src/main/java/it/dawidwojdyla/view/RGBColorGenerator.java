@@ -3,7 +3,7 @@ package it.dawidwojdyla.view;
 /**
  * Created by Dawid on 2021-01-20.
  */
-public class RGBColorFactory {
+public class RGBColorGenerator {
 
     public static String generateColorFromTemperature(int temperature) {
         double red;
