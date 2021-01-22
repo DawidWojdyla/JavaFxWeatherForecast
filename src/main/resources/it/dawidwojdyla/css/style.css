@@ -1,12 +1,16 @@
 * {
-    base-background-color: white;
+    main-color: white;
+    main-color-alt: black;
+
 }
 
 .container {
-    -fx-background-color: base-background-color;
+    -fx-background-color: main-color;
 }
 
 .search-result-pane {
+    -fx-border-color: main-color-alt;
+    -fx-border-width: 0px 0px 1px 0px;
 
 }
 
@@ -21,8 +25,8 @@
 }
 
 .weather-item-pane {
-    -fx-border-color: black;
-    -fx-border-width: 0.5px 0px 0px 0px;
+    -fx-border-color: main-color-alt;
+    -fx-border-width: 1px 0px 0px 0px;
 }
 
 .place-name-label {
@@ -39,5 +43,5 @@
 }
 
 .searching-result-label:hover {
-    -fx-background-color: yellow;
+    -fx-background-color: #a1e5ff;
 }
