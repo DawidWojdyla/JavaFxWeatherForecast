@@ -26,6 +26,8 @@ public class WeatherForecastManager {
                 result.getLatitude(), result.getLongitude(), result.getDisplayName());
         fetchWeatherService.setOnSucceeded(e ->
                 mainWindowController.setWeatherForecast(fetchWeatherService.getValue(), weatherForecastVBox));
+        fetchWeatherService.setOnFailed(e ->
+                mainWindowController.showMessage(weatherForecastVBox, CONNECTION_FAILED_MESSAGE));
         fetchWeatherService.start();
     }
 

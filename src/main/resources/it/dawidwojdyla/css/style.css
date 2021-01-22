@@ -1,47 +1,47 @@
 * {
     main-color: white;
     main-color-alt: black;
-
 }
 
 .container {
     -fx-background-color: main-color;
 }
 
-.search-result-pane {
-    -fx-border-color: main-color-alt;
-    -fx-border-width: 0px 0px 1px 0px;
+Button:focused {
+    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5, 4, 3;
+}
 
+.search-result-pane {
+    -fx-border-color: -fx-outer-border;
+    -fx-border-width: 1px 1px 1px 1px;
+}
+
+.searching-result-label {
+    -fx-padding: 3px;
+    -fx-margin: 5px;
+    -fx-background-color: main-color;
+}
+
+.searching-result-label:hover {
+    -fx-background-color: -fx-inner-border;
+}
+
+.search-field:focused, .search-field:focused:hover  {
+    -fx-background-color: -fx-outer-border, #fff;
+}
+
+.weather-item-pane {
+    -fx-border-color: -fx-outer-border;
+    -fx-border-width: 1.5px 0px 0px 0px;
 }
 
 .info-label {
     -fx-font-size: 18px;
 }
 
-.search-button:focused {
-    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
-    -fx-background-insets: 0, 1, 2;
-    -fx-background-radius: 5, 4, 3;
-}
-
-.weather-item-pane {
-    -fx-border-color: main-color-alt;
-    -fx-border-width: 1px 0px 0px 0px;
-}
-
 .place-name-label {
     -fx-padding: 5px;
     -fx-font-size: 18px;
-   /* -fx-background-color: base-background-color;
-    -fx-border: solid, black 1px 1px 0.5px 0;*/
-}
-
-.searching-result-label {
-    -fx-padding: 3px;
-    -fx-margin: 5px;
-    -fx-cursor: hand;
-}
-
-.searching-result-label:hover {
-    -fx-background-color: #a1e5ff;
 }

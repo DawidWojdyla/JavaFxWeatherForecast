@@ -10,6 +10,7 @@ import it.dawidwojdyla.model.constants.Constants;
 import it.dawidwojdyla.view.WeatherDayViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -31,37 +32,26 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private TextField currentLocationTextField;
-
     @FXML
     private Button currentLocationSearchButton;
-
     @FXML
     private VBox currentLocationWeatherVBox;
-
     @FXML
     private AnchorPane currentLocationSearchResultPane;
-
     @FXML
     private VBox currentLocationSearchResultVBox;
-
     @FXML
     private TextField destinationTextField;
-
     @FXML
     private Button destinationSearchButton;
-
     @FXML
     private VBox destinationWeatherVBox;
-
     @FXML
     private AnchorPane destinationSearchResultPane;
-
     @FXML
     private VBox destinationSearchResultVBox;
-
     @FXML
     private Label currentLocationInfoLabel;
-
     @FXML
     private Label destinationInfoLabel;
 
@@ -88,7 +78,7 @@ public class MainWindowController implements Initializable {
             fetchGeoCoordinates(currentLocationTextField.getText(), currentLocationSearchResultVBox,
                     currentLocationWeatherVBox, currentLocationSearchResultPane);
         } else {
-            currentLocationInfoLabel.setText(Constants.VALIDATION_ERROR_MESSAGE);
+            currentLocationInfoLabel.setText(Constants.TEXTFIELD_VALIDATION_ERROR_MESSAGE);
         }
     }
 
@@ -99,7 +89,7 @@ public class MainWindowController implements Initializable {
             fetchGeoCoordinates(destinationTextField.getText(), destinationSearchResultVBox,
                     destinationWeatherVBox, destinationSearchResultPane);
         } else {
-            destinationInfoLabel.setText(Constants.VALIDATION_ERROR_MESSAGE);
+            destinationInfoLabel.setText(Constants.TEXTFIELD_VALIDATION_ERROR_MESSAGE);
         }
     }
 
@@ -107,17 +97,23 @@ public class MainWindowController implements Initializable {
         FetchGeoCoordinatesService geoCoordinateService = new FetchGeoCoordinatesService(searchText);
         geoCoordinateService.setOnSucceeded(e -> {
             if (geoCoordinateService.getValue().isEmpty()) {
-                AnchorPane parentPane = (AnchorPane) searchResultPane.getParent();
-                Label label = (Label) parentPane.getChildren().get(0);
-                label.setText("No results");
+                showMessage(searchResultPane, "No results");
             } else {
                 showSearchCityResults(resultVBox, weatherForecastVBox, searchResultPane, geoCoordinateService.getValue());
             }
         });
+        geoCoordinateService.setOnFailed(e -> showMessage(weatherForecastVBox, Constants.CONNECTION_FAILED_MESSAGE));
         geoCoordinateService.start();
     }
 
-    private void showSearchCityResults(VBox resultVBox, VBox weatherForecastVBox, AnchorPane searchResultPane, List<SearchCityResult> searchCityResultList) {
+    public void showMessage(Parent mainAnchorPaneChild, String message) {
+        AnchorPane parentPane = (AnchorPane) mainAnchorPaneChild.getParent();
+        Label label = (Label) parentPane.getChildren().get(0);
+        label.setText(message);
+    }
+
+    private void showSearchCityResults(VBox resultVBox, VBox weatherForecastVBox, AnchorPane searchResultPane,
+                                       List<SearchCityResult> searchCityResultList) {
         resultVBox.getChildren().clear();
         for (SearchCityResult result: searchCityResultList) {
             Label label = new Label(result.getSearchResultDisplayText());
@@ -138,7 +134,10 @@ public class MainWindowController implements Initializable {
         weatherForecastManager.fetchDefaultLocationsWeather(currentLocationWeatherVBox, destinationWeatherVBox);
 
         setSearchButtons();
+        setEnterPressedListeners();
+    }
 
+    private void setEnterPressedListeners() {
         currentLocationTextField.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
                 currentLocationSearchButtonAction();
