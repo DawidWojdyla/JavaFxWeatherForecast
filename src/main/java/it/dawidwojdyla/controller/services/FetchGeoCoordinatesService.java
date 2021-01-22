@@ -10,13 +10,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.dawidwojdyla.model.constants.Constants.GEOAPIFY_API_HOST;
+import static it.dawidwojdyla.model.constants.Constants.GEOAPIFY_API_KEY;
+
 /**
  * Created by Dawid on 2021-01-16.
  */
 public class FetchGeoCoordinatesService extends Service<List<SearchCityResult>> {
 
-    private final String GEOAPIFY_HOST = "https://api.geoapify.com/v1/geocode/search";
-    private final String API_KEY = "d499b25463e34a59b66068281d8ebd39";
+
     private String searchingPlaceName;
     private List<SearchCityResult> cities = new ArrayList<>();
     String lastLongLat;
@@ -26,8 +28,8 @@ public class FetchGeoCoordinatesService extends Service<List<SearchCityResult>> 
     }
 
     private String buildRequest() {
-        return GEOAPIFY_HOST + "?text=" + URLEncoder.encode(searchingPlaceName, StandardCharsets.UTF_8) +
-                "&type=city&result_type=city&limit=10" +"&apiKey=" + API_KEY;
+        return GEOAPIFY_API_HOST + "?text=" + URLEncoder.encode(searchingPlaceName, StandardCharsets.UTF_8) +
+                "&type=city&result_type=city&limit=10" +"&apiKey=" + GEOAPIFY_API_KEY;
     }
 
     @Override

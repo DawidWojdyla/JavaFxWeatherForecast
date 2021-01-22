@@ -4,21 +4,13 @@ import it.dawidwojdyla.controller.MainWindowController;
 import it.dawidwojdyla.controller.services.FetchWeatherService;
 import it.dawidwojdyla.model.SearchCityResult;
 import javafx.scene.layout.VBox;
+import static it.dawidwojdyla.model.constants.Constants.*;
 
 
 /**
  * Created by Dawid on 2021-01-11.
  */
 public class WeatherForecastManager {
-
-    private static final String CURRENT_LOCATION_LATITUDE_DEFAULT = "50.0412";
-    private static final String CURRENT_LOCATION_LONGITUDE_DEFAULT = "21.9991";
-    private static final String CURRENT_LOCATION_CITY_DEFAULT = "Rzeszów";
-    private static final String CURRENT_LOCATION_COUNTRY_DEFAULT = "Poland";
-    private static final String DESTINATION_LATITUDE_DEFAULT = "45.4420043";
-    private static final String DESTINATION_LONGITUDE_DEFAULT = "12.3378095";
-    private static final String DESTINATION_CITY_DEFAULT = "Venice";
-    private static final String DESTINATION_COUNTRY_DEFAULT = "Italy";
 
     private MainWindowController mainWindowController;
 

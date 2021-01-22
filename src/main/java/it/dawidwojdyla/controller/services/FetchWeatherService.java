@@ -9,13 +9,15 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static it.dawidwojdyla.model.constants.Constants.OPEN_WEATHER_ONE_CALL_API_HOST;
+import static it.dawidwojdyla.model.constants.Constants.OPEN_WEATHER_ONE_CALL_API_KEY;
+
 /**
  * Created by Dawid on 2021-01-14.
  */
 public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation> {
 
-    private final String API_HOST = "https://api.openweathermap.org/data/2.5/onecall";
-    private final String API_KEY = "39af7a169432c32cc8f937e351c91f46";
+
     private final String latitude;
     private final String longitude;
     private final String placeName;
@@ -31,8 +33,8 @@ public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation>
     }
 
     private String buildRequest() {
-        return API_HOST + "?lat=" + latitude + "&lon=" + longitude +
-                "&exclude=current,minutely,hourly,alerts&units=metric&appid=" + API_KEY;
+        return OPEN_WEATHER_ONE_CALL_API_HOST + "?lat=" + latitude + "&lon=" + longitude +
+                "&exclude=current,minutely,hourly,alerts&units=metric&appid=" + OPEN_WEATHER_ONE_CALL_API_KEY;
     }
 
     @Override
