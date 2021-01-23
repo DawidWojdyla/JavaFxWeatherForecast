@@ -9,59 +9,74 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="744.0" styleClass="container" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-  <items>
-    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="368.0">
-         <children>
-            <Label fx:id="currentLocationInfoLabel" alignment="CENTER" layoutX="40.0" layoutY="66.0" prefHeight="25.0" prefWidth="268.0" styleClass="info-label" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0" />
-            <Button fx:id="currentLocationSearchButton" layoutX="297.0" layoutY="20.0" mnemonicParsing="false" onAction="#currentLocationSearchButtonAction" prefHeight="35.0" prefWidth="35.0" styleClass="search-button" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="20.0" />
-            <TextField fx:id="currentLocationTextField" layoutX="43.0" layoutY="33.0" prefHeight="35.0" prefWidth="251.0" styleClass="search-field" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="20.0" />
-            <VBox fx:id="currentLocationWeatherVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
-            <AnchorPane fx:id="currentLocationSearchResultPane" minHeight="100.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <ScrollPane fitToHeight="true" minViewportHeight="10.0" pannable="true" styleClass="container" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <content>
-                      <AnchorPane maxWidth="1.7976931348623157E308" minWidth="364.0" styleClass="container">
-                           <children>
-                              <VBox fx:id="currentLocationSearchResultVBox" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </ScrollPane>
-                  <Button graphicTextGap="2.0" layoutX="94.0" layoutY="140.0" mnemonicParsing="false" onAction="#currentLocationSearchBackButtonAction" prefHeight="15.0" prefWidth="181.0" text="&lt;---" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
-               </children>
-               <styleClass>
-                  <String fx:value="search-result-pane" />
-                  <String fx:value="container" />
-               </styleClass>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
-    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="368.0">
-         <children>
-            <Label fx:id="destinationInfoLabel" alignment="CENTER" layoutX="55.0" layoutY="62.0" prefHeight="25.0" prefWidth="268.0" styleClass="info-label" textAlignment="CENTER" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0" />
-            <Button fx:id="destinationSearchButton" layoutX="285.0" layoutY="20.0" mnemonicParsing="false" onAction="#destinationSearchButtonAction" prefHeight="35.0" prefWidth="35.0" styleClass="search-button" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="20.0" />
-            <TextField fx:id="destinationTextField" layoutX="75.0" layoutY="35.0" prefHeight="35.0" prefWidth="251.0" styleClass="search-field" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="20.0" />
-            <VBox fx:id="destinationWeatherVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
-            <AnchorPane fx:id="destinationSearchResultPane" minHeight="100.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <ScrollPane fitToHeight="true" minViewportHeight="10.0" styleClass="container" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <content>
-                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="364.0" styleClass="container">
-                           <children>
-                              <VBox fx:id="destinationSearchResultVBox" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </ScrollPane>
-                  <Button graphicTextGap="2.0" layoutX="94.0" layoutY="140.0" mnemonicParsing="false" onAction="#destinationSearchBackButtonAction" prefHeight="15.0" prefWidth="181.0" text="&lt;---" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
-               </children>
-               <styleClass>
-                  <String fx:value="search-result-pane" />
-                  <String fx:value="container" />
-               </styleClass>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
-  </items>
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           prefHeight="638.0" prefWidth="744.0" styleClass="container" xmlns="http://javafx.com/javafx/11.0.1"
+           xmlns:fx="http://javafx.com/fxml/1">
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0"
+                prefWidth="368.0">
+        <Label fx:id="currentLocationInfoLabel" alignment="CENTER" layoutX="40.0" layoutY="66.0" prefHeight="25.0"
+               prefWidth="268.0" styleClass="info-label" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0"
+               AnchorPane.topAnchor="70.0"/>
+        <Button fx:id="currentLocationSearchButton" layoutX="297.0" layoutY="20.0" mnemonicParsing="false"
+                onAction="#currentLocationSearchButtonAction" prefHeight="35.0" prefWidth="35.0"
+                styleClass="search-button" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="20.0"/>
+        <TextField fx:id="currentLocationTextField" layoutX="43.0" layoutY="33.0" prefHeight="35.0"
+                   prefWidth="251.0" styleClass="search-field" AnchorPane.leftAnchor="40.0"
+                   AnchorPane.topAnchor="20.0"/>
+        <VBox fx:id="currentLocationWeatherVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0"/>
+        <AnchorPane fx:id="currentLocationSearchResultPane" minHeight="100.0" visible="false"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <styleClass>
+                <String fx:value="search-result-pane"/>
+                <String fx:value="container"/>
+            </styleClass>
+            <ScrollPane fitToHeight="true" minViewportHeight="10.0" pannable="true" styleClass="container"
+                        AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                        AnchorPane.topAnchor="0.0">
+                <AnchorPane maxWidth="1.7976931348623157E308" minWidth="364.0" styleClass="container">
+                    <VBox fx:id="currentLocationSearchResultVBox" styleClass="container"
+                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                </AnchorPane>
+            </ScrollPane>
+            <Button graphicTextGap="2.0" layoutX="94.0" layoutY="140.0" mnemonicParsing="false"
+                    onAction="#currentLocationSearchBackButtonAction" prefHeight="15.0" prefWidth="181.0"
+                    text="&lt;---" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0"
+                    AnchorPane.rightAnchor="100.0"/>
+        </AnchorPane>
+    </AnchorPane>
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0"
+                prefWidth="368.0">
+        <Label fx:id="destinationInfoLabel" alignment="CENTER" layoutX="55.0" layoutY="62.0" prefHeight="25.0"
+               prefWidth="268.0" styleClass="info-label" textAlignment="CENTER" AnchorPane.leftAnchor="40.0"
+               AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0"/>
+        <Button fx:id="destinationSearchButton" layoutX="285.0" layoutY="20.0" mnemonicParsing="false"
+                onAction="#destinationSearchButtonAction" prefHeight="35.0" prefWidth="35.0"
+                styleClass="search-button" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="20.0"/>
+        <TextField fx:id="destinationTextField" layoutX="75.0" layoutY="35.0" prefHeight="35.0" prefWidth="251.0"
+                   styleClass="search-field" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="20.0"/>
+        <VBox fx:id="destinationWeatherVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0"/>
+        <AnchorPane fx:id="destinationSearchResultPane" minHeight="100.0" visible="false"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <styleClass>
+                <String fx:value="search-result-pane"/>
+                <String fx:value="container"/>
+            </styleClass>
+            <ScrollPane fitToHeight="true" minViewportHeight="10.0" styleClass="container"
+                        AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                        AnchorPane.topAnchor="0.0">
+                <AnchorPane maxWidth="1.7976931348623157E308" minWidth="364.0" styleClass="container">
+                    <VBox fx:id="destinationSearchResultVBox" style="-fx-background-color: white;"
+                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                </AnchorPane>
+            </ScrollPane>
+            <Button graphicTextGap="2.0" layoutX="94.0" layoutY="140.0" mnemonicParsing="false"
+                    onAction="#destinationSearchBackButtonAction" prefHeight="15.0" prefWidth="181.0"
+                    text="&lt;---" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0"
+                    AnchorPane.rightAnchor="100.0"/>
+        </AnchorPane>
+    </AnchorPane>
 </SplitPane>

@@ -1,11 +1,11 @@
 package it.dawidwojdyla.controller;
 
-import it.dawidwojdyla.Launcher;
+import it.dawidwojdyla.Main;
 import it.dawidwojdyla.WeatherForecastManager;
 import it.dawidwojdyla.controller.services.FetchGeoCoordinatesService;
 import it.dawidwojdyla.model.SearchCityResult;
 import it.dawidwojdyla.model.WeatherConditionsOfTheLocation;
-import it.dawidwojdyla.model.WeatherForecast;
+import it.dawidwojdyla.model.Weather;
 import it.dawidwojdyla.model.constants.Constants;
 import it.dawidwojdyla.view.WeatherDayViewFactory;
 import javafx.fxml.FXML;
@@ -23,12 +23,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 /**
  * Created by Dawid on 2021-01-11.
  */
 public class MainWindowController implements Initializable {
-
 
     @FXML
     private TextField currentLocationTextField;
@@ -74,36 +72,32 @@ public class MainWindowController implements Initializable {
     @FXML
     void currentLocationSearchButtonAction() {
         currentLocationInfoLabel.setText("");
-        if (currentLocationTextField.getText().length() > 2) {
-            fetchGeoCoordinates(currentLocationTextField.getText(), currentLocationSearchResultVBox,
-                    currentLocationWeatherVBox, currentLocationSearchResultPane);
-        } else {
-            currentLocationInfoLabel.setText(Constants.TEXTFIELD_VALIDATION_ERROR_MESSAGE);
-        }
+        fetchGeoCoordinates(currentLocationTextField.getText(), currentLocationSearchResultVBox,
+                currentLocationWeatherVBox, currentLocationSearchResultPane);
     }
 
     @FXML
     void destinationSearchButtonAction() {
         destinationInfoLabel.setText("");
-        if (destinationTextField.getText().length() > 2) {
-            fetchGeoCoordinates(destinationTextField.getText(), destinationSearchResultVBox,
-                    destinationWeatherVBox, destinationSearchResultPane);
-        } else {
-            destinationInfoLabel.setText(Constants.TEXTFIELD_VALIDATION_ERROR_MESSAGE);
-        }
+        fetchGeoCoordinates(destinationTextField.getText(), destinationSearchResultVBox, destinationWeatherVBox,
+                destinationSearchResultPane);
     }
 
-    private void fetchGeoCoordinates(String searchText, VBox resultVBox, VBox weatherForecastVBox, AnchorPane searchResultPane) {
-        FetchGeoCoordinatesService geoCoordinateService = new FetchGeoCoordinatesService(searchText);
-        geoCoordinateService.setOnSucceeded(e -> {
-            if (geoCoordinateService.getValue().isEmpty()) {
-                showMessage(searchResultPane, "No results");
-            } else {
-                showSearchCityResults(resultVBox, weatherForecastVBox, searchResultPane, geoCoordinateService.getValue());
-            }
-        });
-        geoCoordinateService.setOnFailed(e -> showMessage(weatherForecastVBox, Constants.CONNECTION_FAILED_MESSAGE));
-        geoCoordinateService.start();
+    private void fetchGeoCoordinates(String searchText, VBox resultVBox, VBox weatherVBox, AnchorPane resultPane) {
+        if (searchText.length() <= Constants.MINIMUM_SEARCH_TEXT_VALIDATION_LENGTH) {
+            showMessage(weatherVBox, Constants.TEXTFIELD_VALIDATION_ERROR_MESSAGE);
+        } else {
+            FetchGeoCoordinatesService geoCoordinateService = new FetchGeoCoordinatesService(searchText);
+            geoCoordinateService.setOnSucceeded(e -> {
+                if (geoCoordinateService.getValue().isEmpty()) {
+                    showMessage(resultPane, Constants.NO_SEARCH_CITY_RESULT_MESSAGE);
+                } else {
+                    showSearchResult(resultVBox, weatherVBox, resultPane, geoCoordinateService.getValue());
+                }
+            });
+            geoCoordinateService.setOnFailed(e -> showMessage(weatherVBox, Constants.CONNECTION_FAILED_MESSAGE));
+            geoCoordinateService.start();
+        }
     }
 
     public void showMessage(Parent mainAnchorPaneChild, String message) {
@@ -112,15 +106,15 @@ public class MainWindowController implements Initializable {
         label.setText(message);
     }
 
-    private void showSearchCityResults(VBox resultVBox, VBox weatherForecastVBox, AnchorPane searchResultPane,
-                                       List<SearchCityResult> searchCityResultList) {
+    private void showSearchResult(VBox resultVBox, VBox weatherVBox, AnchorPane searchResultPane,
+                                  List<SearchCityResult> searchCityResultList) {
         resultVBox.getChildren().clear();
         for (SearchCityResult result: searchCityResultList) {
             Label label = new Label(result.getSearchResultDisplayText());
             label.setMaxWidth(Double.MAX_VALUE);
-            label.getStyleClass().add("searching-result-label");
+            label.getStyleClass().add("search-result-label");
             label.setOnMouseClicked(e1 -> {
-                weatherForecastManager.fetchWeather(result, weatherForecastVBox);
+                weatherForecastManager.fetchWeather(result, weatherVBox);
                 searchResultPane.setVisible(false);
             });
             resultVBox.getChildren().add(label);
@@ -132,7 +126,6 @@ public class MainWindowController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         weatherForecastManager.setMainWindowController(this);
         weatherForecastManager.fetchDefaultLocationsWeather(currentLocationWeatherVBox, destinationWeatherVBox);
-
         setSearchButtons();
         setEnterPressedListeners();
     }
@@ -152,18 +145,18 @@ public class MainWindowController implements Initializable {
 
     private void setSearchButtons() {
         currentLocationSearchButton.setGraphic(new ImageView(new Image(
-                Launcher.class.getResourceAsStream("icons/loupe_home.png"))));
+                Main.class.getResourceAsStream("icons/loupe_home.png"))));
         destinationSearchButton.setGraphic(new ImageView(new Image(
-                Launcher.class.getResourceAsStream("icons/loupe_plane.png"))));
+                Main.class.getResourceAsStream("icons/loupe_plane.png"))));
     }
 
-    public void setWeatherForecast(WeatherConditionsOfTheLocation weatherConditionsOfTheLocation, VBox weatherForecastVBox) {
-        weatherForecastVBox.getChildren().clear();
+    public void showWeather(WeatherConditionsOfTheLocation weatherConditionsOfTheLocation, VBox weatherVBox) {
+        weatherVBox.getChildren().clear();
         Label placeNameLabel = new Label(weatherConditionsOfTheLocation.getPlaceName());
         placeNameLabel.getStyleClass().add("place-name-label");
-        weatherForecastVBox.getChildren().add(placeNameLabel);
-        for (WeatherForecast weatherForecast: weatherConditionsOfTheLocation.getWeatherForecasts()) {
-            weatherForecastVBox.getChildren().add(WeatherDayViewFactory.createWeatherDayAnchorPane(weatherForecast));
+        weatherVBox.getChildren().add(placeNameLabel);
+        for (Weather weather : weatherConditionsOfTheLocation.getWeatherList()) {
+            weatherVBox.getChildren().add(WeatherDayViewFactory.createWeatherDayAnchorPane(weather));
         }
     }
 }

@@ -1,5 +1,6 @@
 package it.dawidwojdyla.controller.services;
 
+import it.dawidwojdyla.model.constants.Constants;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,17 +12,16 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by Dawid on 2021-01-16.
  */
-public class JSONResponseFetcherOnHttpRequest {
+public class HttpRequestManager {
 
     private String request;
-    private final int NUMBER_OF_TRIES = 3;
 
-    public JSONResponseFetcherOnHttpRequest(String request) {
+    public HttpRequestManager(String request) {
         this.request = request;
     }
 
     public JSONObject getJSONResponse() {
-        for (int i = 0; i < NUMBER_OF_TRIES; i++) {
+        for (int i = 0; i <= Constants.HTTP_REQUEST_CONNECT_RETRIES_NUMBER; i++) {
             try {
                 HttpURLConnection connection = (HttpURLConnection) new URL(request).openConnection();
                 connection.setRequestMethod("GET");

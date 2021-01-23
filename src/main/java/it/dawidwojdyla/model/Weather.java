@@ -3,7 +3,7 @@ package it.dawidwojdyla.model;
 /**
  * Created by Dawid on 2021-01-13.
  */
-public class WeatherForecast {
+public class Weather {
 
     int minTemp;
     int maxTemp;
@@ -19,9 +19,6 @@ public class WeatherForecast {
     String description;
     String iconName;
     String date;
-
-    public WeatherForecast() {
-    }
 
     public String getDate() {
         return date;

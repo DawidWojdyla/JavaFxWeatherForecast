@@ -8,23 +8,19 @@ import java.util.List;
  */
 public class WeatherConditionsOfTheLocation {
 
-    private List<WeatherForecast> weatherForecasts = new ArrayList<>();
+    private List<Weather> weatherList = new ArrayList<>();
     private String placeName;
-    private String latitude;
-    private String longitude;
 
-    public WeatherConditionsOfTheLocation(String latitude, String longitude, String placeName) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public WeatherConditionsOfTheLocation(String placeName) {
         this.placeName = placeName;
     }
 
-    public List<WeatherForecast> getWeatherForecasts() {
-        return weatherForecasts;
+    public List<Weather> getWeatherList() {
+        return weatherList;
     }
 
-    public void setWeatherForecasts(List<WeatherForecast> weatherForecasts) {
-        this.weatherForecasts = weatherForecasts;
+    public void setWeatherList(List<Weather> weatherList) {
+        this.weatherList = weatherList;
     }
 
     public String getPlaceName() {

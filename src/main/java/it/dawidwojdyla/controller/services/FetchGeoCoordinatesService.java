@@ -38,8 +38,8 @@ public class FetchGeoCoordinatesService extends Service<List<SearchCityResult>> 
             @Override
             protected List<SearchCityResult> call() {
                 lastLongLat = "";
-                JSONResponseFetcherOnHttpRequest responseFetcher = new JSONResponseFetcherOnHttpRequest(buildRequest());
-                JSONObject searchResult = responseFetcher.getJSONResponse();
+                HttpRequestManager httpRequestManager = new HttpRequestManager(buildRequest());
+                JSONObject searchResult = httpRequestManager.getJSONResponse();
                 JSONArray features = searchResult.getJSONArray("features");
                 for (int i = 0; i < features.length(); i++) {
                     JSONObject jsonCityResult = (JSONObject) features.opt(i);

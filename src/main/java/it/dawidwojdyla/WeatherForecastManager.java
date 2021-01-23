@@ -14,20 +14,16 @@ public class WeatherForecastManager {
 
     private MainWindowController mainWindowController;
 
-    public WeatherForecastManager() {
-    }
-
     public void setMainWindowController(MainWindowController mainWindowController) {
         this.mainWindowController = mainWindowController;
     }
 
-    public void fetchWeather(SearchCityResult result, VBox weatherForecastVBox) {
+    public void fetchWeather(SearchCityResult result, VBox weatherVBox) {
         FetchWeatherService fetchWeatherService = new FetchWeatherService(
                 result.getLatitude(), result.getLongitude(), result.getDisplayName());
         fetchWeatherService.setOnSucceeded(e ->
-                mainWindowController.setWeatherForecast(fetchWeatherService.getValue(), weatherForecastVBox));
-        fetchWeatherService.setOnFailed(e ->
-                mainWindowController.showMessage(weatherForecastVBox, CONNECTION_FAILED_MESSAGE));
+                mainWindowController.showWeather(fetchWeatherService.getValue(), weatherVBox));
+        fetchWeatherService.setOnFailed(e -> mainWindowController.showMessage(weatherVBox, CONNECTION_FAILED_MESSAGE));
         fetchWeatherService.start();
     }
 

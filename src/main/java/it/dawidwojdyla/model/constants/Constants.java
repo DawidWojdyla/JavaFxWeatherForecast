@@ -20,6 +20,10 @@ public class Constants {
     public static  final String GEOAPIFY_API_HOST = "https://api.geoapify.com/v1/geocode/search";
     public static  final String GEOAPIFY_API_KEY = "d499b25463e34a59b66068281d8ebd39";
 
-    public static final String TEXTFIELD_VALIDATION_ERROR_MESSAGE = "Enter at least 3 characters";
+    public static final String TEXTFIELD_VALIDATION_ERROR_MESSAGE = "Enter at least characters";
+    public static final int MINIMUM_SEARCH_TEXT_VALIDATION_LENGTH = 3;
+    public static final String NO_SEARCH_CITY_RESULT_MESSAGE = "No such place was found";
     public static final String CONNECTION_FAILED_MESSAGE = "Service temporarily unavailable";
+
+    public static final int HTTP_REQUEST_CONNECT_RETRIES_NUMBER = 2;
 }

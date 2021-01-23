@@ -1,7 +1,7 @@
 package it.dawidwojdyla.view;
 
-import it.dawidwojdyla.Launcher;
-import it.dawidwojdyla.model.WeatherForecast;
+import it.dawidwojdyla.Main;
+import it.dawidwojdyla.model.Weather;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,61 +13,56 @@ import javafx.scene.layout.HBox;
  */
 public class WeatherDayViewFactory {
 
-    public static AnchorPane createWeatherDayAnchorPane(WeatherForecast weatherForecast) {
-        AnchorPane anchorPane = new AnchorPane();
+    public static AnchorPane createWeatherDayAnchorPane(Weather weather) {
 
-        Label date = new Label(weatherForecast.getDate());
+        Label date = new Label(weather.getDate());
         AnchorPane.setTopAnchor(date, 1.0);
         AnchorPane.setLeftAnchor(date, 2.0);
-        date.setStyle("-fx-font-size: 15px");
+        date.getStyleClass().add("text-medium");
 
-        Label description = new Label(weatherForecast.getDescription().substring(0, 1).toUpperCase()
-                + weatherForecast.getDescription().substring(1));
+        Label description = new Label(weather.getDescription());
         AnchorPane.setTopAnchor(description, 20.0);
         AnchorPane.setLeftAnchor(description, 2.0);
+        description.getStyleClass().add("weather-description");
 
         Label temperature = new Label(
-                weatherForecast.getMaxTemp() + "ºC / " + weatherForecast.getMinTemp() + "ºC");
+                weather.getMaxTemp() + "ºC / " + weather.getMinTemp() + "ºC");
         AnchorPane.setBottomAnchor(temperature, -1.0);
         AnchorPane.setRightAnchor(temperature, 3.0);
-        temperature.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        temperature.getStyleClass().add("temperature");
 
         Label tempDescription = new Label("max  /  min");
         AnchorPane.setBottomAnchor(tempDescription, 25.0);
         AnchorPane.setRightAnchor(tempDescription, 15.0);
 
-        Image mainIcon = new Image(Launcher.class.getResourceAsStream
-                ("icons/" + weatherForecast.getIconName() + "@2x.png"));
-        ImageView mainImageView = new ImageView(mainIcon);
-        AnchorPane.setTopAnchor(mainImageView,-20.0);
-        AnchorPane.setRightAnchor(mainImageView,2.0);
+        ImageView mainIcon = new ImageView(new Image(Main.class.getResourceAsStream
+                ("icons/" + weather.getIconName() + "@2x.png")));
+        AnchorPane.setTopAnchor(mainIcon,-20.0);
+        AnchorPane.setRightAnchor(mainIcon,2.0);
 
-
-        anchorPane.getChildren().addAll(date, setTopIconsHBox(weatherForecast), setBottomIconsHBox(weatherForecast),
-                description, temperature, mainImageView, tempDescription);
+        AnchorPane anchorPane = new AnchorPane(date, setTopIconsHBox(weather), setBottomIconsHBox(weather),
+                description, temperature, mainIcon, tempDescription);
         anchorPane.setMinSize(100,100);
         anchorPane.getStyleClass().add("weather-item-pane");
         anchorPane.setStyle("-fx-background-color: linear-gradient(to right, "
-                + RGBColorGenerator.generateColorFromTemperature(weatherForecast.getMaxTemp()) +
-                ", " + RGBColorGenerator.generateColorFromTemperature(weatherForecast.getMinTemp()) + ")");
+                + RGBColorGenerator.generateColorFromTemperature(weather.getMaxTemp()) +
+                ", " + RGBColorGenerator.generateColorFromTemperature(weather.getMinTemp()) + ")");
 
         return anchorPane;
     }
 
-    private static HBox setTopIconsHBox(WeatherForecast weatherForecast) {
+    private static HBox setTopIconsHBox(Weather weather) {
 
-        Image sun = new Image(Launcher.class.getResourceAsStream
-                ("icons/sun_small3.png"));
-        ImageView sunImageView = new ImageView(sun);
-        Label sunriseLabel = new Label(weatherForecast.getSunrise());
-        HBox sunriseHBox = new HBox(sunImageView, sunriseLabel);
+        ImageView sunIcon = new ImageView( new Image(
+                Main.class.getResourceAsStream("icons/sun_small.png")));
+        Label sunriseLabel = new Label(weather.getSunrise());
+        HBox sunriseHBox = new HBox(sunIcon, sunriseLabel);
         sunriseHBox.setSpacing(3);
 
-        Image moon = new Image(Launcher.class.getResourceAsStream
-                ("icons/moon_small.png"));
-        ImageView moonImageView = new ImageView(moon);
-        Label sunset = new Label(weatherForecast.getSunset());
-        HBox sunsetHBox = new HBox(moonImageView, sunset);
+        ImageView moonIcon = new ImageView(new Image(
+                Main.class.getResourceAsStream("icons/moon_small.png")));
+        Label sunset = new Label(weather.getSunset());
+        HBox sunsetHBox = new HBox(moonIcon, sunset);
 
         HBox topIconsHBox = new HBox(sunriseHBox, sunsetHBox);
         topIconsHBox.setSpacing(10);
@@ -77,28 +72,21 @@ public class WeatherDayViewFactory {
         return topIconsHBox;
     }
 
-    private static HBox setBottomIconsHBox(WeatherForecast weatherForecast) {
+    private static HBox setBottomIconsHBox(Weather weather) {
 
-        Image probabilityOfPrecipitationIcon = new Image(
-                Launcher.class.getResourceAsStream("icons/umbrella_small.png"));
-        ImageView probabilityOfPrecipitationIconImageView = new ImageView(probabilityOfPrecipitationIcon);
-        Label popLabel = new Label(weatherForecast.getProbabilityOfPrecipitation());
-        HBox popHBox = new HBox(probabilityOfPrecipitationIconImageView, popLabel);
-        popHBox.setSpacing(2);
+        ImageView probabilityOfPrecipitationIcon = new ImageView(
+                new Image(Main.class.getResourceAsStream("icons/umbrella_small.png")));
+        Label probabilityOfPrecipitation = new Label(weather.getProbabilityOfPrecipitation());
+        HBox probabilityOfPrecipitationHBox = new HBox(probabilityOfPrecipitationIcon, probabilityOfPrecipitation);
+        probabilityOfPrecipitationHBox.setSpacing(2);
 
-        Image pressureIcon = new Image(Launcher.class.getResourceAsStream("icons/pressure_small.png"));
-        ImageView pressureImageView = new ImageView(pressureIcon);
-        Label pressureLabel = new Label(weatherForecast.getPressure() + "mb");
-        HBox pressureHBox = new HBox(pressureImageView, pressureLabel);
+        ImageView pressureIcon = new ImageView(
+                new Image(Main.class.getResourceAsStream("icons/pressure_small.png")));
+        Label pressure = new Label(weather.getPressure() + "mb");
+        HBox pressureHBox = new HBox(pressureIcon, pressure);
         pressureHBox.setSpacing(2);
 
-//        Image cloudIcon = new Image(Launcher.class.getResourceAsStream("icons/cloud_small2.png"));
-//        ImageView cloudImageView = new ImageView(cloudIcon);
-//        Label cloudinessLabel = new Label(weatherForecast.getCloudiness());
-//        HBox cloudsHBox = new HBox(cloudImageView, cloudinessLabel);
-//        cloudsHBox.setSpacing(2);
-
-        HBox bottomIconsHBox = new HBox(popHBox, pressureHBox);
+        HBox bottomIconsHBox = new HBox(probabilityOfPrecipitationHBox, pressureHBox);
         bottomIconsHBox.setSpacing(10);
         AnchorPane.setBottomAnchor(bottomIconsHBox, 1.0);
         AnchorPane.setLeftAnchor(bottomIconsHBox, 2.0);
