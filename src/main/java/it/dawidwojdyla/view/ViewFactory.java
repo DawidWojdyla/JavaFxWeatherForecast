@@ -6,6 +6,7 @@ import it.dawidwojdyla.controller.MainWindowController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -14,7 +15,7 @@ import java.io.IOException;
  */
 public class ViewFactory {
 
-    private WeatherForecastManager weatherForecastManager;
+    private final WeatherForecastManager weatherForecastManager;
 
     public ViewFactory(WeatherForecastManager weatherForecastManager) {
         this.weatherForecastManager = weatherForecastManager;
@@ -35,6 +36,7 @@ public class ViewFactory {
         Scene scene = new Scene(parent);
         scene.getStylesheets().add(Main.class.getResource("css/style.css").toExternalForm());
         Stage stage = new Stage();
+        stage.getIcons().add(new Image(Main.class.getResourceAsStream("icons/app-icon.png")));
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
