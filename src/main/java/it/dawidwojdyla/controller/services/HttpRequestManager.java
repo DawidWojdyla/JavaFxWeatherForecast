@@ -1,6 +1,6 @@
 package it.dawidwojdyla.controller.services;
 
-import it.dawidwojdyla.model.constants.Constants;
+import it.dawidwojdyla.model.Constants;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;

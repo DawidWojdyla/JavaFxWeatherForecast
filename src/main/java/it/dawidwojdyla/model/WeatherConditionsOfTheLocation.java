@@ -1,6 +1,5 @@
 package it.dawidwojdyla.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,19 +7,16 @@ import java.util.List;
  */
 public class WeatherConditionsOfTheLocation {
 
-    private List<Weather> weatherList = new ArrayList<>();
-    private String placeName;
+    private final List<Weather> weatherList;
+    private final String placeName;
 
-    public WeatherConditionsOfTheLocation(String placeName) {
+    public WeatherConditionsOfTheLocation(String placeName, List<Weather> weatherList) {
         this.placeName = placeName;
+        this.weatherList = weatherList;
     }
 
     public List<Weather> getWeatherList() {
         return weatherList;
-    }
-
-    public void setWeatherList(List<Weather> weatherList) {
-        this.weatherList = weatherList;
     }
 
     public String getPlaceName() {

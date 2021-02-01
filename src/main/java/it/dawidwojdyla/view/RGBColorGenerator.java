@@ -8,7 +8,7 @@ public class RGBColorGenerator {
     private static final int MAX_COLOR_VALUE = 255;
     private static final int MIN_COLOR_VALUE = 0;
 
-    public static String generateColorFromTemperature(int temperature) {
+    public static String generateCssStyleColorFromTemperature(int temperature) {
         double red;
         double green;
         double blue;
@@ -35,24 +35,19 @@ public class RGBColorGenerator {
             blue = MAX_COLOR_VALUE;
         }
 
-        if (red < MIN_COLOR_VALUE) {
-            red = MIN_COLOR_VALUE;
-        } else if(red > MAX_COLOR_VALUE) {
-            red = MAX_COLOR_VALUE;
-        }
-
-        if (green < MIN_COLOR_VALUE || Double.isNaN(green)) {
-            green = MIN_COLOR_VALUE;
-        } else if (green > MAX_COLOR_VALUE) {
-            green = MAX_COLOR_VALUE;
-        }
-
-        if (blue < MIN_COLOR_VALUE || Double.isNaN(blue)) {
-            blue = MIN_COLOR_VALUE;
-        } else if (blue > MAX_COLOR_VALUE) {
-            blue = MAX_COLOR_VALUE;
-        }
+        red = adjustToMinMaxColorValues(red);
+        green = adjustToMinMaxColorValues(green);
+        blue = adjustToMinMaxColorValues(blue);
 
         return "rgb(" + red + ", " + green + ", " + blue + ")";
+    }
+
+    private static double adjustToMinMaxColorValues(double colorValue) {
+        if (colorValue < MIN_COLOR_VALUE || Double.isNaN(colorValue)) {
+            colorValue = MIN_COLOR_VALUE;
+        } else if (colorValue > MAX_COLOR_VALUE) {
+            colorValue = MAX_COLOR_VALUE;
+        }
+        return colorValue;
     }
 }

@@ -1,4 +1,4 @@
-package it.dawidwojdyla.model.constants;
+package it.dawidwojdyla.model;
 
 /**
  * Created by Dawid on 2021-01-22.
@@ -26,4 +26,5 @@ public class Constants {
     public static final String CONNECTION_FAILED_MESSAGE = "Service temporarily unavailable";
 
     public static final int HTTP_REQUEST_CONNECT_RETRIES_NUMBER = 2;
+    public static final int MAX_WEATHER_DAY_AMOUNT = 5;
 }

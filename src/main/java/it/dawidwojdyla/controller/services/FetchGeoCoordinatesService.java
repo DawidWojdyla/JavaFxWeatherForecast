@@ -10,26 +10,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.dawidwojdyla.model.constants.Constants.GEOAPIFY_API_HOST;
-import static it.dawidwojdyla.model.constants.Constants.GEOAPIFY_API_KEY;
+import static it.dawidwojdyla.model.Constants.GEOAPIFY_API_HOST;
+import static it.dawidwojdyla.model.Constants.GEOAPIFY_API_KEY;
 
 /**
  * Created by Dawid on 2021-01-16.
  */
 public class FetchGeoCoordinatesService extends Service<List<SearchCityResult>> {
 
-
     private String searchingPlaceName;
-    private List<SearchCityResult> cities = new ArrayList<>();
-    String lastLongLat;
+    private String lastLongLat;
 
     public FetchGeoCoordinatesService(String searchingPlaceName) {
         this.searchingPlaceName = searchingPlaceName;
-    }
-
-    private String buildRequest() {
-        return GEOAPIFY_API_HOST + "?text=" + URLEncoder.encode(searchingPlaceName, StandardCharsets.UTF_8) +
-                "&type=city&result_type=city&limit=10" +"&apiKey=" + GEOAPIFY_API_KEY;
     }
 
     @Override
@@ -37,22 +30,34 @@ public class FetchGeoCoordinatesService extends Service<List<SearchCityResult>> 
         return new Task<>() {
             @Override
             protected List<SearchCityResult> call() {
+                List<SearchCityResult> resultList = new ArrayList<>();
                 lastLongLat = "";
                 HttpRequestManager httpRequestManager = new HttpRequestManager(buildRequest());
                 JSONObject searchResult = httpRequestManager.getJSONResponse();
-                JSONArray features = searchResult.getJSONArray("features");
-                for (int i = 0; i < features.length(); i++) {
-                    JSONObject jsonCityResult = (JSONObject) features.opt(i);
-                    handleCityResult(jsonCityResult);
+                if (searchResult != null) {
+                    JSONArray features = searchResult.getJSONArray("features");
+                    for (int i = 0; i < features.length(); i++) {
+                        JSONObject jsonCityResult = features.getJSONObject(i);
+                        SearchCityResult cityResult = handleCityResult(jsonCityResult);
+                        if (cityResult != null) {
+                            resultList.add(cityResult);
+                        }
+                    }
+                    return resultList;
                 }
-                return cities;
+                return null;
             }
         };
     }
 
-    private void handleCityResult(JSONObject jsonCityResult) {
+    private String buildRequest() {
+        return GEOAPIFY_API_HOST + "?text=" + URLEncoder.encode(searchingPlaceName, StandardCharsets.UTF_8) +
+                "&type=city&result_type=city&limit=10" + "&apiKey=" + GEOAPIFY_API_KEY;
+    }
 
-        JSONObject properties = (JSONObject) jsonCityResult.get("properties");
+    private SearchCityResult handleCityResult(JSONObject jsonCityResult) {
+
+        JSONObject properties = jsonCityResult.getJSONObject("properties");
 
         if (!lastLongLat.equals(properties.optString("lat") + properties.optString("lon"))) {
             lastLongLat = properties.optString("lat") + properties.optString("lon");
@@ -65,7 +70,8 @@ public class FetchGeoCoordinatesService extends Service<List<SearchCityResult>> 
             result.setCounty(properties.optString("county", ""));
             result.setMunicipality(properties.optString("municipality", ""));
 
-            cities.add(result);
+            return result;
         }
+        return  null;
     }
 }

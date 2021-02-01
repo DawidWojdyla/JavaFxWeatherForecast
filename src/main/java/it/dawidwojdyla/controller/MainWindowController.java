@@ -6,7 +6,7 @@ import it.dawidwojdyla.controller.services.FetchGeoCoordinatesService;
 import it.dawidwojdyla.model.SearchCityResult;
 import it.dawidwojdyla.model.WeatherConditionsOfTheLocation;
 import it.dawidwojdyla.model.Weather;
-import it.dawidwojdyla.model.constants.Constants;
+import it.dawidwojdyla.model.Constants;
 import it.dawidwojdyla.view.WeatherDayViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -53,7 +53,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private Label destinationInfoLabel;
 
-    WeatherForecastManager weatherForecastManager;
+    private final WeatherForecastManager weatherForecastManager;
 
     public MainWindowController(WeatherForecastManager weatherForecastManager) {
         this.weatherForecastManager = weatherForecastManager;
@@ -89,10 +89,13 @@ public class MainWindowController implements Initializable {
         } else {
             FetchGeoCoordinatesService geoCoordinateService = new FetchGeoCoordinatesService(searchText);
             geoCoordinateService.setOnSucceeded(e -> {
-                if (geoCoordinateService.getValue().isEmpty()) {
+                List<SearchCityResult> result = geoCoordinateService.getValue();
+                if (result == null) {
+                    showMessage(resultPane, Constants.CONNECTION_FAILED_MESSAGE);
+                } else if (result.isEmpty()) {
                     showMessage(resultPane, Constants.NO_SEARCH_CITY_RESULT_MESSAGE);
                 } else {
-                    showSearchResult(resultVBox, weatherVBox, resultPane, geoCoordinateService.getValue());
+                    showSearchResult(resultVBox, weatherVBox, resultPane, result);
                 }
             });
             geoCoordinateService.setOnFailed(e -> showMessage(weatherVBox, Constants.CONNECTION_FAILED_MESSAGE));
@@ -109,7 +112,7 @@ public class MainWindowController implements Initializable {
     private void showSearchResult(VBox resultVBox, VBox weatherVBox, AnchorPane searchResultPane,
                                   List<SearchCityResult> searchCityResultList) {
         resultVBox.getChildren().clear();
-        for (SearchCityResult result: searchCityResultList) {
+        for (SearchCityResult result : searchCityResultList) {
             Label label = new Label(result.getSearchResultDisplayText());
             label.setMaxWidth(Double.MAX_VALUE);
             label.getStyleClass().add("search-result-label");
@@ -152,11 +155,15 @@ public class MainWindowController implements Initializable {
 
     public void showWeather(WeatherConditionsOfTheLocation weatherConditionsOfTheLocation, VBox weatherVBox) {
         weatherVBox.getChildren().clear();
-        Label placeNameLabel = new Label(weatherConditionsOfTheLocation.getPlaceName());
-        placeNameLabel.getStyleClass().add("place-name-label");
-        weatherVBox.getChildren().add(placeNameLabel);
-        for (Weather weather : weatherConditionsOfTheLocation.getWeatherList()) {
-            weatherVBox.getChildren().add(WeatherDayViewFactory.createWeatherDayAnchorPane(weather));
+        if (weatherConditionsOfTheLocation != null) {
+            Label placeNameLabel = new Label(weatherConditionsOfTheLocation.getPlaceName());
+            placeNameLabel.getStyleClass().add("place-name-label");
+            weatherVBox.getChildren().add(placeNameLabel);
+            for (Weather weather : weatherConditionsOfTheLocation.getWeatherList()) {
+                weatherVBox.getChildren().add(WeatherDayViewFactory.createWeatherDayAnchorPane(weather));
+            }
+        } else {
+            showMessage(weatherVBox, Constants.CONNECTION_FAILED_MESSAGE);
         }
     }
 }

@@ -49,25 +49,24 @@ public class SearchCityResult {
     public String getSearchResultDisplayText() {
         String displayText = city + " ";
 
-        if (!postCode.equals("")) {
-            displayText += "[" + postCode + "]";
-        }
+        displayText += addToDisplayTextIfNotEmpty(postCode);
 
-        if (!municipality.equals("")) {
-            displayText += "[" + municipality + "]";
-        }
+        displayText += addToDisplayTextIfNotEmpty(municipality);
 
-        if (!county.equals("")) {
-            displayText += "[" + county + "]";
-        }
+        displayText += addToDisplayTextIfNotEmpty(county);
 
-        if (!state.equals("")) {
-            displayText += "[" + state + "]";
-        }
+        displayText += addToDisplayTextIfNotEmpty(state);
 
         displayText += "[" + country + "]";
 
         return displayText;
+    }
+
+    private String addToDisplayTextIfNotEmpty(String text) {
+        if (!text.equals("")) {
+            return "[" + text + "]";
+        }
+        return "";
     }
 
     public String getDisplayName() {

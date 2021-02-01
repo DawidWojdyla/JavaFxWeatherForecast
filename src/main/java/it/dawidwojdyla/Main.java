@@ -12,9 +12,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
 
-      WeatherForecastManager weatherForecastManager = new WeatherForecastManager();
-      ViewFactory viewFactory = new ViewFactory(weatherForecastManager);
-      viewFactory.showMainWindow();
+        WeatherForecastManager weatherForecastManager = new WeatherForecastManager();
+        ViewFactory viewFactory = new ViewFactory(weatherForecastManager);
+        viewFactory.showMainWindow();
     }
 
     public static void main(String[] args) {

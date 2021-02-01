@@ -37,23 +37,23 @@ public class WeatherDayViewFactory {
 
         ImageView mainIcon = new ImageView(new Image(Main.class.getResourceAsStream
                 ("icons/" + weather.getIconName() + "@2x.png")));
-        AnchorPane.setTopAnchor(mainIcon,-20.0);
-        AnchorPane.setRightAnchor(mainIcon,2.0);
+        AnchorPane.setTopAnchor(mainIcon, -20.0);
+        AnchorPane.setRightAnchor(mainIcon, 2.0);
 
         AnchorPane anchorPane = new AnchorPane(date, setTopIconsHBox(weather), setBottomIconsHBox(weather),
                 description, temperature, mainIcon, tempDescription);
-        anchorPane.setMinSize(100,100);
+        anchorPane.setMinSize(100, 100);
         anchorPane.getStyleClass().add("weather-item-pane");
         anchorPane.setStyle("-fx-background-color: linear-gradient(to right, "
-                + RGBColorGenerator.generateColorFromTemperature(weather.getMaxTemp()) +
-                ", " + RGBColorGenerator.generateColorFromTemperature(weather.getMinTemp()) + ")");
+                + RGBColorGenerator.generateCssStyleColorFromTemperature(weather.getMaxTemp()) +
+                ", " + RGBColorGenerator.generateCssStyleColorFromTemperature(weather.getMinTemp()) + ")");
 
         return anchorPane;
     }
 
     private static HBox setTopIconsHBox(Weather weather) {
 
-        ImageView sunIcon = new ImageView( new Image(
+        ImageView sunIcon = new ImageView(new Image(
                 Main.class.getResourceAsStream("icons/sun_small.png")));
         Label sunriseLabel = new Label(weather.getSunrise());
         HBox sunriseHBox = new HBox(sunIcon, sunriseLabel);
