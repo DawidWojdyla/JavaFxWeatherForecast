@@ -61,8 +61,6 @@ public class MainWindowController implements Initializable {
     public MainWindowController(WeatherForecastManager weatherForecastManager) {
         this.weatherForecastManager = weatherForecastManager;
         geoCoordinateService = new FetchGeoCoordinatesService();
-        //geoCoordinateServiceSpare = new FetchGeoCoordinatesService();
-
     }
 
     @FXML
@@ -151,7 +149,12 @@ public class MainWindowController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         weatherForecastManager.setMainWindowController(this);
-        weatherForecastManager.fetchDefaultLocationsWeather(currentLocationWeatherVBox, destinationWeatherVBox);
+        weatherForecastManager.fetchWeather(new SearchCityResult(Constants.CURRENT_LOCATION_LATITUDE_DEFAULT,
+                        Constants.CURRENT_LOCATION_LONGITUDE_DEFAULT, Constants.CURRENT_LOCATION_CITY_DEFAULT,
+                        Constants.CURRENT_LOCATION_COUNTRY_DEFAULT), currentLocationWeatherVBox);
+        weatherForecastManager.fetchWeather(new SearchCityResult(Constants.DESTINATION_LATITUDE_DEFAULT,
+                Constants.DESTINATION_LONGITUDE_DEFAULT, Constants.DESTINATION_CITY_DEFAULT,
+                Constants.DESTINATION_COUNTRY_DEFAULT), destinationWeatherVBox);
         setSearchButtons();
         setEnterPressedListeners();
     }
