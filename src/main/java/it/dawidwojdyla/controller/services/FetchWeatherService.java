@@ -23,13 +23,19 @@ import static it.dawidwojdyla.model.Constants.OPEN_WEATHER_ONE_CALL_API_KEY;
  */
 public class FetchWeatherService extends Service<WeatherConditionsOfTheLocation> {
 
-    private final String latitude;
-    private final String longitude;
-    private final String placeName;
+    private String latitude;
+    private String longitude;
+    private String placeName;
 
-    public FetchWeatherService(String latitude, String longitude, String placeName) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
+    }
+
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public void setPlaceName(String placeName) {
         this.placeName = placeName;
     }
 

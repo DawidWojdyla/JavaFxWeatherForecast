@@ -3,6 +3,7 @@ package it.dawidwojdyla.controller;
 import it.dawidwojdyla.Main;
 import it.dawidwojdyla.WeatherForecastManager;
 import it.dawidwojdyla.controller.services.FetchGeoCoordinatesService;
+import it.dawidwojdyla.controller.services.FetchWeatherService;
 import it.dawidwojdyla.model.SearchCityResult;
 import it.dawidwojdyla.model.WeatherConditionsOfTheLocation;
 import it.dawidwojdyla.model.Weather;
@@ -54,9 +55,14 @@ public class MainWindowController implements Initializable {
     private Label destinationInfoLabel;
 
     private final WeatherForecastManager weatherForecastManager;
+    private final FetchGeoCoordinatesService geoCoordinateService;
+    private FetchGeoCoordinatesService geoCoordinateServiceSpare;
 
     public MainWindowController(WeatherForecastManager weatherForecastManager) {
         this.weatherForecastManager = weatherForecastManager;
+        geoCoordinateService = new FetchGeoCoordinatesService();
+        //geoCoordinateServiceSpare = new FetchGeoCoordinatesService();
+
     }
 
     @FXML
@@ -72,35 +78,52 @@ public class MainWindowController implements Initializable {
     @FXML
     void currentLocationSearchButtonAction() {
         currentLocationInfoLabel.setText("");
-        fetchGeoCoordinates(currentLocationTextField.getText(), currentLocationSearchResultVBox,
-                currentLocationWeatherVBox, currentLocationSearchResultPane);
+        fetchGeoCoordinates(currentLocationTextField.getText(),
+                currentLocationSearchResultVBox, currentLocationWeatherVBox, currentLocationSearchResultPane);
     }
 
     @FXML
     void destinationSearchButtonAction() {
         destinationInfoLabel.setText("");
-        fetchGeoCoordinates(destinationTextField.getText(), destinationSearchResultVBox, destinationWeatherVBox,
-                destinationSearchResultPane);
+        fetchGeoCoordinates(destinationTextField.getText(), destinationSearchResultVBox,
+                destinationWeatherVBox, destinationSearchResultPane);
     }
 
     private void fetchGeoCoordinates(String searchText, VBox resultVBox, VBox weatherVBox, AnchorPane resultPane) {
         if (searchText.length() <= Constants.MINIMUM_SEARCH_TEXT_VALIDATION_LENGTH) {
             showMessage(weatherVBox, Constants.TEXTFIELD_VALIDATION_ERROR_MESSAGE);
         } else {
-            FetchGeoCoordinatesService geoCoordinateService = new FetchGeoCoordinatesService(searchText);
-            geoCoordinateService.setOnSucceeded(e -> {
-                List<SearchCityResult> result = geoCoordinateService.getValue();
-                if (result == null) {
-                    showMessage(resultPane, Constants.CONNECTION_FAILED_MESSAGE);
-                } else if (result.isEmpty()) {
-                    showMessage(resultPane, Constants.NO_SEARCH_CITY_RESULT_MESSAGE);
-                } else {
-                    showSearchResult(resultVBox, weatherVBox, resultPane, result);
-                }
-            });
-            geoCoordinateService.setOnFailed(e -> showMessage(weatherVBox, Constants.CONNECTION_FAILED_MESSAGE));
-            geoCoordinateService.start();
+            startNewFetchGeoService(setGeoCoordinateService(), searchText, resultVBox, weatherVBox, resultPane);
         }
+    }
+
+    private FetchGeoCoordinatesService setGeoCoordinateService() {
+        if (!geoCoordinateService.isRunning()) {
+            return geoCoordinateService;
+        } else if (geoCoordinateServiceSpare == null) {
+            return geoCoordinateServiceSpare = new FetchGeoCoordinatesService();
+        } else if (!geoCoordinateServiceSpare.isRunning()){
+            return geoCoordinateServiceSpare;
+        } else {
+            return new FetchGeoCoordinatesService();
+        }
+    }
+
+    private void startNewFetchGeoService(FetchGeoCoordinatesService geoCoordinateService, String searchText,
+                                         VBox resultVBox, VBox weatherVBox, AnchorPane resultPane) {
+        geoCoordinateService.setSearchingPlaceName(searchText);
+        geoCoordinateService.setOnSucceeded(e -> {
+            List<SearchCityResult> result = geoCoordinateService.getValue();
+            if (result == null) {
+                showMessage(resultPane, Constants.CONNECTION_FAILED_MESSAGE);
+            } else if (result.isEmpty()) {
+                showMessage(resultPane, Constants.NO_SEARCH_CITY_RESULT_MESSAGE);
+            } else {
+                showSearchResult(resultVBox, weatherVBox, resultPane, result);
+            }
+        });
+        geoCoordinateService.setOnFailed(e -> showMessage(weatherVBox, Constants.CONNECTION_FAILED_MESSAGE));
+        geoCoordinateService.restart();
     }
 
     public void showMessage(Parent mainAnchorPaneChild, String message) {
@@ -116,7 +139,7 @@ public class MainWindowController implements Initializable {
             Label label = new Label(result.getSearchResultDisplayText());
             label.setMaxWidth(Double.MAX_VALUE);
             label.getStyleClass().add("search-result-label");
-            label.setOnMouseClicked(e1 -> {
+            label.setOnMouseClicked(e -> {
                 weatherForecastManager.fetchWeather(result, weatherVBox);
                 searchResultPane.setVisible(false);
             });

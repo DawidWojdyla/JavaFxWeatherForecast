@@ -21,7 +21,7 @@ public class FetchGeoCoordinatesService extends Service<List<SearchCityResult>> 
     private String searchingPlaceName;
     private String lastLongLat;
 
-    public FetchGeoCoordinatesService(String searchingPlaceName) {
+    public void setSearchingPlaceName(String searchingPlaceName) {
         this.searchingPlaceName = searchingPlaceName;
     }
 
@@ -31,10 +31,10 @@ public class FetchGeoCoordinatesService extends Service<List<SearchCityResult>> 
             @Override
             protected List<SearchCityResult> call() {
                 List<SearchCityResult> resultList = new ArrayList<>();
-                lastLongLat = "";
                 HttpRequestManager httpRequestManager = new HttpRequestManager(buildRequest());
                 JSONObject searchResult = httpRequestManager.getJSONResponse();
                 if (searchResult != null) {
+                    lastLongLat = "";
                     JSONArray features = searchResult.getJSONArray("features");
                     for (int i = 0; i < features.length(); i++) {
                         JSONObject jsonCityResult = features.getJSONObject(i);

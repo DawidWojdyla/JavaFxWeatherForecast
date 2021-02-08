@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class HttpRequestManager {
 
-    private String request;
+    private final String request;
 
     public HttpRequestManager(String request) {
         this.request = request;
